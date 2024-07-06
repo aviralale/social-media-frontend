@@ -12,6 +12,7 @@ import ResetPasswordConfirm from "./pages/Auth/ResetPasswordConfirm";
 import ForgotUsername from "./pages/Auth/ForgotUsername";
 import ResetUsernameConfirm from "./pages/Auth/ResetUsernameConfirm";
 import Dashboard from "./pages/user/Dashboard";
+import IndividualPostPage from "./pages/Social/IndividualPostPage";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<div>Home</div>} />
+          {/* AUTH */}
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/activate" element={<AccountActivation />} />
@@ -33,7 +35,11 @@ export default function App() {
             path="/reset-username-confirm"
             element={<ResetUsernameConfirm />}
           />
+          {/* USER */}
           <Route path="/dashboard" element={<Dashboard />} />
+          {/* SOCIAL */}
+          <Route path="/post" element={<IndividualPostPage />} />
+          {/* 404 */}
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Layout>

@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import formatDate from "@/utils/formatDate";
 
-export default function PostHeader(props) {
+export default function CommentHeader(props) {
   const [report, setReport] = useState(null);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -47,7 +47,7 @@ export default function PostHeader(props) {
                   className="object-cover aspect-square"
                   src={props.profilePicture}
                 />
-                <AvatarFallback>AH</AvatarFallback>
+                <AvatarFallback>{props.username}</AvatarFallback>
               </Avatar>
               @{props.username}{" "}
               {props.isVerified ? <BadgeCheck size={16} /> : ""}
@@ -55,7 +55,7 @@ export default function PostHeader(props) {
           </HoverCardTrigger>
           <Drawer>
             <DrawerTrigger>
-              <EllipsisVertical />
+              <EllipsisVertical size={16} />
             </DrawerTrigger>
             <DrawerContent>
               <DrawerHeader>
@@ -87,8 +87,7 @@ export default function PostHeader(props) {
                   <Textarea
                     id="complainText"
                     className="col-span-3"
-                    placeholder="Let us know if something's wrong about this."
-                    required
+                    placeholder="Let us know if something's wrong about this.(Optional)"
                   />
                 </div>
               </DrawerHeader>
@@ -127,7 +126,7 @@ export default function PostHeader(props) {
               <div className="flex items-center pt-2">
                 <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
                 <span className="text-xs text-muted-foreground">
-                  Posted {formatDate(props.postPosted)}
+                  Posted {formatDate(props.createdAt)}
                 </span>
               </div>
             </div>
