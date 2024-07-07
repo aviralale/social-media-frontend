@@ -9,7 +9,8 @@ const postData = {
     follower_count: 1,
     following_count: 1,
     is_verified: true,
-    profile_pic: "http://127.0.0.1:8000/media/user_avatar/peep-57.jpg",
+    profile_pic:
+      "http://127.0.0.1:8000/media/user_avatar/438065279_1215865809405912_5372992020956987802_n_SI7FcGg.jpg",
   },
   content: "test",
   media: [
