@@ -28,11 +28,21 @@ export default function PostMedia(props) {
             <div className="">
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-2">
-                  <img
-                    src={item.file}
-                    alt={`Media ${item.id}`}
-                    className="rounded-lg w-full h-full object-cover"
-                  />
+                  {item.type === "video" ? (
+                    <video
+                      src={item.file}
+                      autoPlay
+                      className="rounded-lg w-full h-full object-cover"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img
+                      src={item.file}
+                      alt={`Media ${item.id}`}
+                      className="rounded-lg w-full h-full object-cover"
+                    />
+                  )}
                 </CardContent>
               </Card>
             </div>
@@ -55,11 +65,21 @@ export default function PostMedia(props) {
             <div className="">
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-2">
-                  <img
-                    src={item.file}
-                    alt={`Media ${item.id}`}
-                    className="rounded-lg w-full h-full object-cover"
-                  />
+                  {item.type === "video" ? (
+                    <video
+                      src={item.file}
+                      autoPlay
+                      className="rounded-lg w-full h-full object-cover"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img
+                      src={item.file}
+                      alt={`Media ${item.id}`}
+                      className="rounded-lg w-full h-full object-cover"
+                    />
+                  )}
                 </CardContent>
               </Card>
             </div>

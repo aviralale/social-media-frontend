@@ -8,7 +8,7 @@ export function Comments() {
   const [comments, setComments] = useState([]);
   useEffect(() => {
     async function loadComments() {
-      const data = await commentData;
+      const data = commentData;
       setComments(data);
     }
     loadComments();

@@ -11,22 +11,22 @@ export default function IndividualPostPage(props) {
         <div className="flex gap-8">
           <div>
             <PostHeader
-              username={postData.author.username}
-              isVerified={postData.author.is_verified}
-              followerCount={postData.author.follower_count}
-              followingCount={postData.author.following_count}
-              firstName={postData.author.first_name}
-              lastName={postData.author.last_name}
-              profilePicture={postData.author.profile_pic}
-              postPosted={postData.created_at}
+              username={postData[0].author.username}
+              isVerified={postData[0].author.is_verified}
+              followerCount={postData[0].author.follower_count}
+              followingCount={postData[0].author.following_count}
+              firstName={postData[0].author.first_name}
+              lastName={postData[0].author.last_name}
+              profilePicture={postData[0].author.profile_pic}
+              postPosted={postData[0].created_at}
             />
             <PostMedia
-              media={postData.media}
-              caption={postData.content}
-              postPosted={postData.created_at}
-              commentCount={postData.comment_count}
+              media={postData[0].media}
+              caption={postData[0].content}
+              postPosted={postData[0].created_at}
+              commentCount={postData[0].comment_count}
             />
-            <PostFooter likeCount={postData.like_count} />
+            <PostFooter likeCount={postData[0].like_count} />
           </div>
           <Comments />
         </div>
