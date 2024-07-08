@@ -1,13 +1,14 @@
 import { Heart } from "lucide-react";
 import CommentHeader from "./ReplyHeader";
 import { Link } from "react-router-dom";
+import { apiURL } from "@/utils/apiUrl";
 
 export default function Reply({ author, content, created_at, like_count }) {
   return (
     <>
       <div>
         <CommentHeader
-          profilePicture={author.profile_pic}
+          profilePicture={`${apiURL}${author.profile_pic}`}
           username={author.username}
           isVerified={author.is_verified}
           firstName={author.first_name}

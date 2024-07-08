@@ -1,3 +1,4 @@
+// const apiUrl = process.env.REACT_APP_API_URL;
 const userData = {
   id: 3,
   email: "aviralale@gmail.com",
@@ -6,8 +7,7 @@ const userData = {
   middle_name: null,
   last_name: "Ale",
   full_name: "Aviral Ale",
-  profile_pic:
-    "http://127.0.0.1:8000/media/user_avatar/438065279_1215865809405912_5372992020956987802_n_SI7FcGg.jpg",
+  profile_pic: `http://127.0.0.1:8000/media/user_avatar/438065279_1215865809405912_5372992020956987802_n_SI7FcGg.jpg`,
   cover_pic: "http://127.0.0.1:8000/media/user_cover_pic/_MG_0525_YiS5ov4.JPG",
   bio: "watching the wheels go round and round",
   gender: "M",

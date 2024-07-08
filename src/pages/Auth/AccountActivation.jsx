@@ -1,5 +1,5 @@
 import React from "react";
-import ActivationBg from "../../assets/acc-activation.png";
+import ActivationBg from "../../assets/photos/acc-activation.png";
 export default function AccountActivation() {
   return (
     <>

@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import formatDate from "@/utils/formatDate";
+import { apiURL } from "@/utils/apiUrl";
 
 export default function PostHeader(props) {
   const [report, setReport] = useState(null);
@@ -45,7 +46,7 @@ export default function PostHeader(props) {
               <Avatar className="w-8 h-8">
                 <AvatarImage
                   className="object-cover aspect-square"
-                  src={props.profilePicture}
+                  src={`${apiURL}${props.profilePicture}`}
                 />
                 <AvatarFallback>AH</AvatarFallback>
               </Avatar>
@@ -106,7 +107,7 @@ export default function PostHeader(props) {
             <Avatar>
               <AvatarImage
                 className="object-cover aspect-square"
-                src={props.profilePicture}
+                src={`${apiURL}${props.profilePicture}`}
               />
               <AvatarFallback>AH</AvatarFallback>
             </Avatar>

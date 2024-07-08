@@ -3,15 +3,23 @@ import { Separator } from "@/components/ui/separator";
 import replyData from "@/data/replyData";
 import { Fragment, useEffect, useState } from "react";
 import Reply from "./Reply";
+import axios from "axios";
+import { apiURL } from "@/utils/apiUrl";
 
-export function Replies() {
+export function Replies(props) {
   const [replies, setReplies] = useState([]);
   useEffect(() => {
-    async function loadReplies() {
-      const data = await replyData;
-      setReplies(Array.isArray(data) ? data : []);
-    }
-    loadReplies();
+    const fetchReplies = async () => {
+      try {
+        const response = await axios.get(
+          `${apiURL}/api/comments/${props.commentId}/replies/`
+        );
+        setReplies(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchReplies();
   }, []);
   return (
     <ScrollArea className=" max-h-[48rem] min-w-96 rounded-md border">

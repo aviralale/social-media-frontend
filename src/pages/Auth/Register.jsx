@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import RegBg from "../../assets/reg-bg.png";
+import RegBg from "../../assets/photos/reg-bg.png";
 
 export default function Register() {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import NotFoundBg from "../../assets/404.png";
+import NotFoundBg from "../../assets/photos/404.png";
 import { Link } from "react-router-dom";
 export default function PageNotFound() {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import ActivationBg from "../../assets/acc-activation.png";
+import ActivationBg from "../../assets/photos/acc-activation.png";
 import { Link } from "react-router-dom";
 export default function AccountActivated() {
   return (

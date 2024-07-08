@@ -10,6 +10,7 @@ import {
 import TruncateText from "@/utils/TruncateText";
 import formatDate from "@/utils/formatDate";
 import { Link } from "react-router-dom";
+import { apiURL } from "@/utils/apiUrl";
 
 export default function PostMedia(props) {
   const plugin = React.useRef(
@@ -30,7 +31,7 @@ export default function PostMedia(props) {
                 <CardContent className="flex aspect-square items-center justify-center p-2">
                   {item.type === "video" ? (
                     <video
-                      src={item.file}
+                      src={`${apiURL}${item.file}`}
                       autoPlay
                       className="rounded-lg w-full h-full object-cover"
                     >
@@ -38,7 +39,7 @@ export default function PostMedia(props) {
                     </video>
                   ) : (
                     <img
-                      src={item.file}
+                      src={`${apiURL}${item.file}`}
                       alt={`Media ${item.id}`}
                       className="rounded-lg w-full h-full object-cover"
                     />
@@ -67,7 +68,7 @@ export default function PostMedia(props) {
                 <CardContent className="flex aspect-square items-center justify-center p-2">
                   {item.type === "video" ? (
                     <video
-                      src={item.file}
+                      src={`${apiURL}${item.file}`}
                       autoPlay
                       className="rounded-lg w-full h-full object-cover"
                     >
@@ -75,7 +76,7 @@ export default function PostMedia(props) {
                     </video>
                   ) : (
                     <img
-                      src={item.file}
+                      src={`${apiURL}${item.file}`}
                       alt={`Media ${item.id}`}
                       className="rounded-lg w-full h-full object-cover"
                     />

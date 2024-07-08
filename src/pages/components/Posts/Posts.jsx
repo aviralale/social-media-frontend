@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import postData from "@/data/postData";
+import axios from "axios";
+import { apiURL } from "@/utils/apiUrl";
+import { useParams } from "react-router-dom";
 
 export default function Posts(props) {
+  const { username } = useParams();
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    async function loadPosts() {
-      const data = postData;
-      setPosts(data);
-    }
-    loadPosts();
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(
+          `${apiURL}/api/users/${username}/posts/`
+        );
+        setPosts(Array.isArray(response.data) ? response.data : []);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchPosts();
   }, []);
+
   return (
     <>
       <div className="flex flex-col justify-center w-[70vw] items-center">

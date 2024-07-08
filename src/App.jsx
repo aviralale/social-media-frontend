@@ -11,17 +11,17 @@ import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPasswordConfirm from "./pages/Auth/ResetPasswordConfirm";
 import ForgotUsername from "./pages/Auth/ForgotUsername";
 import ResetUsernameConfirm from "./pages/Auth/ResetUsernameConfirm";
-import Dashboard from "./pages/user/Dashboard";
 import IndividualPostPage from "./pages/Social/IndividualPostPage";
+import Profile from "./pages/user/Profile";
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="ui-theme">
       <Layout>
         <Routes>
           <Route path="/" element={<div>Home</div>} />
           {/* AUTH */}
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/activate" element={<AccountActivation />} />
           <Route path="/activated" element={<AccountActivated />} />
@@ -36,9 +36,12 @@ export default function App() {
             element={<ResetUsernameConfirm />}
           />
           {/* USER */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/:username" element={<Profile />} />
           {/* SOCIAL */}
-          <Route path="/post" element={<IndividualPostPage />} />
+          <Route
+            path="/:username/posts/:postid"
+            element={<IndividualPostPage />}
+          />
           {/* 404 */}
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
