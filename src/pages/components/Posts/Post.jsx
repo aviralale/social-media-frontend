@@ -4,6 +4,7 @@ import PostMedia from "./PostMedia";
 import PostFooter from "./PostFooter";
 
 export default function Post({
+  id,
   author,
   created_at,
   media,
@@ -40,6 +41,8 @@ export default function Post({
             isDashboard={isDashboard}
             commentCount={comment_count}
             likeCount={like_count}
+            postId={id}
+            username={author.username}
           />
         </div>
       </div>

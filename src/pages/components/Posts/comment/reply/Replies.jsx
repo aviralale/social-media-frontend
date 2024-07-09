@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import Reply from "./Reply";
 import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
+import { useParams } from "react-router-dom";
 
 export function Replies(props) {
   const [replies, setReplies] = useState([]);

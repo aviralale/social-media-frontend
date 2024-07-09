@@ -67,13 +67,19 @@ export default function Profile() {
                 </h1>
                 <div className="flex items-center gap-4">
                   <p>@{userData.username}</p>{" "}
-                  <Link to="#" className="hover:underline">
+                  <Link
+                    to={`/${userData.username}/following`}
+                    className="hover:underline"
+                  >
                     <span className="font-bold">
                       {userData.following_count}{" "}
                     </span>
                     following
                   </Link>
-                  <Link to="#" className="hover:underline">
+                  <Link
+                    to={`/${userData.username}/followers`}
+                    className="hover:underline"
+                  >
                     <span className="font-bold">
                       {userData.follower_count}{" "}
                     </span>

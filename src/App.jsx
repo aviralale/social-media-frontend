@@ -13,6 +13,11 @@ import ForgotUsername from "./pages/Auth/ForgotUsername";
 import ResetUsernameConfirm from "./pages/Auth/ResetUsernameConfirm";
 import IndividualPostPage from "./pages/Social/IndividualPostPage";
 import Profile from "./pages/user/Profile";
+import PostLikers from "./pages/components/Posts/Likers/Post/PostLikers";
+import CommentLikers from "./pages/components/Posts/Likers/Comment/CommentLikers";
+import ReplyLikers from "./pages/components/Posts/Likers/Comment/Reply/ReplyLikers";
+import Followers from "./pages/Social/Followers";
+import Following from "./pages/Social/Following";
 
 export default function App() {
   return (
@@ -42,6 +47,20 @@ export default function App() {
             path="/:username/posts/:postid"
             element={<IndividualPostPage />}
           />
+          <Route
+            path="/:username/posts/:postid/likers"
+            element={<PostLikers />}
+          />
+          <Route
+            path="/posts/:postid/comments/:username/:commentid/likers"
+            element={<CommentLikers />}
+          />
+          <Route
+            path="/comments/:commentid/replies/:username/:replyid/likers"
+            element={<ReplyLikers />}
+          />
+          <Route path="/:username/followers" element={<Followers />} />
+          <Route path="/:username/following" element={<Following />} />
           {/* 404 */}
           <Route path="/*" element={<PageNotFound />} />
         </Routes>

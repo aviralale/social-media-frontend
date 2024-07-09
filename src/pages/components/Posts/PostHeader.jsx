@@ -42,7 +42,10 @@ export default function PostHeader(props) {
       <HoverCard>
         <div className="flex justify-between">
           <HoverCardTrigger asChild>
-            <Button className="flex gap-2 mb-2" variant="link">
+            <Link
+              className="flex items-center gap-2 mb-2 hover:underline"
+              to={`/${props.username}`}
+            >
               <Avatar className="w-8 h-8">
                 <AvatarImage
                   className="object-cover aspect-square"
@@ -52,7 +55,7 @@ export default function PostHeader(props) {
               </Avatar>
               @{props.username}{" "}
               {props.isVerified ? <BadgeCheck size={16} /> : ""}
-            </Button>
+            </Link>
           </HoverCardTrigger>
           <Drawer>
             <DrawerTrigger>

@@ -48,7 +48,11 @@ export default function IndividualPostPage() {
               postPosted={postData.created_at}
               commentCount={postData.comment_count}
             />
-            <PostFooter likeCount={postData.like_count} />
+            <PostFooter
+              likeCount={postData.like_count}
+              postId={postData.id}
+              username={postData.author.username}
+            />
           </div>
           <Comments />
         </div>

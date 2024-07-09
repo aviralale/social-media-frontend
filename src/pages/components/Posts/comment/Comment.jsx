@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 export default function Comment({
+  post,
   author,
   content,
   created_at,
@@ -40,7 +41,12 @@ export default function Comment({
               <button className="mr-1">
                 <Heart size={12} />
               </button>
-              <Link className="text-xs hover:underline">{like_count}</Link>
+              <Link
+                className="text-xs hover:underline"
+                to={`/posts/${post}/comments/${author.username}/${id}/likers`}
+              >
+                {like_count}
+              </Link>
             </div>
           </div>
           <div className="flex">

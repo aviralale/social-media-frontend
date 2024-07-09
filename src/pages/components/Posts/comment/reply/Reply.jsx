@@ -3,7 +3,14 @@ import CommentHeader from "./ReplyHeader";
 import { Link } from "react-router-dom";
 import { apiURL } from "@/utils/apiUrl";
 
-export default function Reply({ author, content, created_at, like_count }) {
+export default function Reply({
+  author,
+  content,
+  created_at,
+  like_count,
+  comment,
+  id,
+}) {
   return (
     <>
       <div>
@@ -23,7 +30,12 @@ export default function Reply({ author, content, created_at, like_count }) {
             <button className="mr-1">
               <Heart size={12} />
             </button>
-            <Link className="text-xs hover:underline">{like_count}</Link>
+            <Link
+              className="text-xs hover:underline"
+              to={`/comments/${comment}/replies/${author.username}/${id}/likers`}
+            >
+              {like_count}
+            </Link>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function Posts(props) {
   const { username } = useParams();
@@ -31,7 +31,9 @@ export default function Posts(props) {
               key={post.id}
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 p-2"
             >
-              <Post {...post} isDashboard={props.isDashboard} />
+              <Link to={`/${post.author.username}/posts/${post.id}`}>
+                <Post {...post} isDashboard={props.isDashboard} />
+              </Link>
             </div>
           ))}
         </div>

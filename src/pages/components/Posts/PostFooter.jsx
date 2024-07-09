@@ -5,18 +5,21 @@ import { Link } from "react-router-dom";
 export default function PostFooter(props) {
   return props.isDashboard ? (
     <div className="flex w-full gap-4 ml-2 my-2">
-      <Button variant="link" className="no-underline p-0 flex gap-1">
+      <span className="no-underline p-0 flex gap-1">
         <Heart className="transform scale-x-[-1]" />
         {props.likeCount}
-      </Button>
-      <Button variant="link" className="no-underline p-0 flex gap-1">
+      </span>
+      <span className="no-underline p-0 flex gap-1">
         <MessageCircle className="transform scale-x-[-1]" />
         {props.commentCount}
-      </Button>
+      </span>
     </div>
   ) : (
     <div className="flex items-baseline w-full gap-4 ml-2 my-2">
-      <Link className="hover:underline p-0 flex gap-1">
+      <Link
+        className="hover:underline p-0 flex gap-1"
+        to={`/${props.username}/posts/${props.postId}/likers`}
+      >
         <Heart className="transform scale-x-[-1]" />
         {props.likeCount} likes
       </Link>

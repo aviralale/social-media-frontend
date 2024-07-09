@@ -70,7 +70,7 @@ export default function PostMedia(props) {
                     <video
                       src={`${apiURL}${item.file}`}
                       autoPlay
-                      className="rounded-lg w-full h-full object-cover"
+                      className="rounded-lg w-full h-full object-cover cursor-grab active:cursor-grabbing"
                     >
                       Your browser does not support the video tag.
                     </video>
@@ -78,7 +78,7 @@ export default function PostMedia(props) {
                     <img
                       src={`${apiURL}${item.file}`}
                       alt={`Media ${item.id}`}
-                      className="rounded-lg w-full h-full object-cover"
+                      className="rounded-lg w-full h-full object-cover cursor-grab active:cursor-grabbing"
                     />
                   )}
                 </CardContent>
