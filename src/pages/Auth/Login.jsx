@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,8 +10,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import LogInBg from "../../assets/photos/login-bg.png";
+import { useState } from "react";
+import { loginUser } from "@/auth/auth";
 
 export function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      username: username,
+      password: password,
+    }
+    if (await loginUser(data)) {
+      navigate("/");
+    } else {
+      alert("Invalid username or password");
+    }
+  };
   return (
     <div className="flex items-center justify-center mt-8">
       <img src={LogInBg} alt="" className="absolute bottom-0 z-[-1] " />
@@ -23,7 +40,7 @@ export function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
+          <form className="grid gap-4" onSubmit={handleSubmit}>
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="username">Username</Label>
@@ -34,7 +51,14 @@ export function Login() {
                   Forgot your username?
                 </Link>
               </div>
-              <Input id="username" type="text" placeholder="johndoe" required />
+              <Input
+                id="username"
+                type="text"
+                placeholder="johndoe"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
@@ -46,12 +70,18 @@ export function Login() {
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
             <Button type="submit" className="w-full">
               Login
             </Button>
-          </div>
+          </form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link to="/register" className="underline">

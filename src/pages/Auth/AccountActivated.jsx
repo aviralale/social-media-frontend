@@ -1,7 +1,21 @@
-import React from "react";
+import { useEffect } from "react";
 import ActivationBg from "../../assets/photos/acc-activation.png";
 import { Link } from "react-router-dom";
+import { activateUser } from "@/auth/auth";
+import { useParams } from "react-router-dom";
 export default function AccountActivated() {
+  const { uid, token } = useParams();
+  useEffect(() => {
+    const activate = async () => {
+      try {
+        const data = { uid, token };
+        const result = await activateUser(data);
+      } catch (error) {
+        console.log("Activation Failed.");
+      }
+    };
+    activate();
+  }, [uid, token]);
   return (
     <>
       <div className="flex items-center justify-center mt-8">

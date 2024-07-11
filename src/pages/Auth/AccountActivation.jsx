@@ -1,6 +1,8 @@
-import React from "react";
 import ActivationBg from "../../assets/photos/acc-activation.png";
+
+
 export default function AccountActivation() {
+
   return (
     <>
       <div className="flex items-center justify-center mt-8">
