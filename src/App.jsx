@@ -19,39 +19,60 @@ import ReplyLikers from "./pages/components/Posts/Likers/Comment/Reply/ReplyLike
 import Followers from "./pages/Social/Followers";
 import Following from "./pages/Social/Following";
 import PrivateRoute from "./auth/PrivateRoute";
+import PublicRoute from "./auth/PublicRoute";
+import { Toaster } from "sonner";
 
 export default function App() {
   return (
     <ThemeProvider>
-        <Layout>
-      <Routes>
-
+      <Layout>
+        <Routes>
           {/* Public routes */}
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/activate/:uid/:token" element={<AccountActivation />} />
-          <Route path="/activation-success" element={<AccountActivated />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />} />
-          <Route path="/forgot-username" element={<ForgotUsername />} />
-          <Route path="/username/reset/confirm/:uid/:token" element={<ResetUsernameConfirm />} />
+          <Route element={<PublicRoute />}>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            </Route>
+            <Route
+              path="/activate/:uid/:token"
+              element={<AccountActivated />}
+            />
+            <Route path="/activate" element={<AccountActivation />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/password/reset/confirm/:uid/:token"
+              element={<ResetPasswordConfirm />}
+            />
+            <Route path="/forgot-username" element={<ForgotUsername />} />
+            <Route
+              path="/username/reset/confirm/:uid/:token"
+              element={<ResetUsernameConfirm />}
+            />
 
           {/* Protected routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<h1>Home</h1>} />
-            <Route path="/profile/:username" element={<Profile />} />
+            <Route path="/:username" element={<Profile />} />
             <Route path="/post/:postId" element={<IndividualPostPage />} />
             <Route path="/post/:postId/likers" element={<PostLikers />} />
-            <Route path="/post/:postId/comment/:commentId/likers" element={<CommentLikers />} />
-            <Route path="/post/:postId/comment/:commentId/reply/:replyId/likers" element={<ReplyLikers />} />
+            <Route
+              path="/post/:postId/comment/:commentId/likers"
+              element={<CommentLikers />}
+            />
+            <Route
+              path="/post/:postId/comment/:commentId/reply/:replyId/likers"
+              element={<ReplyLikers />}
+            />
             <Route path="/:username/followers" element={<Followers />} />
             <Route path="/:username/following" element={<Following />} />
           </Route>
 
           {/* 404 route */}
           <Route path="*" element={<PageNotFound />} />
-      </Routes>
+        </Routes>
       </Layout>
+      <Toaster expand theme="light dark:dark" style={{
+        minHeight: "4rem"
+      }} />
     </ThemeProvider>
   );
 }

@@ -94,10 +94,11 @@ export default function Profile() {
                     <EditProfile
                       profilePicture={userData.profile_pic}
                       coverPicture={userData.cover_pic}
-                      firstName={userData.first_name}
-                      lastName={userData.last_name}
-                      middleName={userData.middle_name}
+                      displayName={userData.first_name}
                       bio={userData.bio}
+                      username={userData.username}
+                      dateOfBirth={userData.date_of_birth}
+                      gender={userData.gender}
                     />
                   </div>
                 </div>
@@ -107,7 +108,7 @@ export default function Profile() {
                     ? "he/him"
                     : userData.gender === "F"
                     ? "she/her"
-                    : "they/them"}
+                    : null}
                 </p>
               </div>
             </div>

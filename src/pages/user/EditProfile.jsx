@@ -11,50 +11,99 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { ModeToggle } from "../components/ToggleMode";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { axiosInstance } from "@/auth/auth";
+import { toast } from "sonner";
+import { Settings } from "lucide-react";
 
 export default function EditProfile(props) {
-  const [pfp, setPfp] = useState(props.profilePicture);
-  const [coverImg, setCoverImg] = useState(props.coverPicture);
-  const handlePfpChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPfp(reader.result);
-      };
-      reader.readAsDataURL(file);
+  const [pfp, setPfp] = useState(null);
+  const [coverImg, setCoverImg] = useState(null);
+  const [displayName, setDisplayName] = useState(props.displayName || "");
+  const [bio, setBio] = useState(props.bio || "");
+  const [gender, setGender] = useState(props.gender || "");
+  const [dateOfBirth, setDateOfBirth] = useState(props.dateOfBirth || "");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!props.displayName) {
+      fetchProfileData();
+    }
+  }, [props.displayName]);
+
+  const fetchProfileData = async () => {
+    try {
+      const { data } = await axiosInstance.get("/api/auth/users/me/");
+      setDisplayName(data.first_name || "");
+      setBio(data.bio || "");
+      setGender(data.gender || "");
+      setDateOfBirth(data.date_of_birth || "");
+    } catch (error) {
+      toast.error("Failed to fetch profile data");
     }
   };
-  const handleCoverImgChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCoverImg(reader.result);
-      };
-      reader.readAsDataURL(file);
+
+  const handleFileChange = (setter) => (e) => {
+    if (e.target.files[0]) {
+      setter(e.target.files[0]);
     }
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const formData = new FormData();
+    formData.append("first_name", displayName);
+    formData.append("bio", bio);
+    formData.append("gender", gender);
+    formData.append("date_of_birth", dateOfBirth);
+    if (pfp) formData.append("profile_pic", pfp);
+    if (coverImg) formData.append("cover_pic", coverImg);
+
+    try {
+      const { data } = await axiosInstance.patch("/api/auth/users/me/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      setDisplayName(data.first_name || "");
+      setBio(data.bio || "");
+      setGender(data.gender || "");
+      setDateOfBirth(data.date_of_birth || "");
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update profile");
+      console.error("Error details:", error.response?.data);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+        <Button variant="outline"><Settings/>{" "}Settings</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
+          <SheetTitle className="flex items-center"><Settings/>{" "}Settings</SheetTitle>
           <SheetDescription>
             Make changes to your profile here. Click save when you're done.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
+        <form className="grid gap-4 py-4" onSubmit={handleSubmit}>
           {pfp && (
             <img
-              src={pfp}
-              alt="Preview"
+              src={URL.createObjectURL(pfp)}
+              alt="Profile Picture Preview"
               className="w-48 h-48 object-cover border border-gray-300 rounded-full"
             />
           )}
@@ -66,13 +115,13 @@ export default function EditProfile(props) {
               type="file"
               id="pfp"
               className="col-span-3"
-              onChange={handlePfpChange}
+              onChange={handleFileChange(setPfp)}
             />
           </div>
           {coverImg && (
             <img
-              src={coverImg}
-              alt="Preview"
+              src={URL.createObjectURL(coverImg)}
+              alt="Cover Image Preview"
               className="h-48 object-cover border border-gray-300 rounded-lg"
             />
           )}
@@ -84,49 +133,64 @@ export default function EditProfile(props) {
               type="file"
               id="coverImage"
               className="col-span-3"
-              onChange={handleCoverImgChange}
+              onChange={handleFileChange(setCoverImg)}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="firstName" className="text-right">
-              First Name
+            <Label htmlFor="displayName" className="text-right">
+              Display Name
             </Label>
             <Input
-              id="firstName"
-              value={props.firstName}
+              id="displayName"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
               className="col-span-3"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="middleName" className="text-right">
-              Middle Name
-            </Label>
-            <Input
-              id="middleName"
-              value={props.middleName}
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="lastName" className="text-right">
-              Last Name
-            </Label>
-            <Input
-              id="lastName"
-              value={props.lastName}
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="lastName" className="text-right">
+            <Label htmlFor="bio" className="text-right">
               Bio
             </Label>
-            <Textarea id="bio" value={props.bio} className="col-span-3" />
+            <Textarea
+              id="bio"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              className="col-span-3"
+            />
           </div>
-        </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="gender" className="text-right">
+              Gender
+            </Label>
+            <Select value={gender} onValueChange={setGender}>
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Select gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="M">Male</SelectItem>
+                <SelectItem value="F">Female</SelectItem>
+                <SelectItem value="O">Others</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="dateOfBirth" className="text-right">
+              Date of Birth
+            </Label>
+            <Input
+              id="dateOfBirth"
+              type="date"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
+              className="col-span-3"
+            />
+          </div>
+        </form>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
+            <Button onClick={handleSubmit} disabled={isLoading}>
+              {isLoading ? "Saving..." : "Save changes"}
+            </Button>
           </SheetClose>
         </SheetFooter>
         <ModeToggle />

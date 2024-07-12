@@ -33,7 +33,6 @@ export default function Register() {
       }
       const data = {
         first_name: firstName,
-        last_name: lastName,
         username: username,
         email: email,
         password: password,
@@ -63,16 +62,11 @@ export default function Register() {
         <CardContent>
 
           <form className="grid gap-4" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-2">
               <div className="grid gap-2">
-                <Label htmlFor="first-name">First name</Label>
-                <Input id="first-name" placeholder="John" required  value={firstName}
+                <Label htmlFor="first-name">Display Name</Label>
+                <Input id="first-name" placeholder="John Doe" required  value={firstName}
               onChange={(e) => setFirstName(e.target.value)}/>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="last-name" value={lastName}
-              onChange={(e) => setLastName(e.target.value)}>Last name</Label>
-                <Input id="last-name" placeholder="Doe" />
               </div>
             </div>
             <div className="grid gap-2">
