@@ -17,15 +17,11 @@ export const registerUser = async (data) => {
 
 export const activateUser = async (data) => {
   try {
-    const response = await axios.post(
-      `${apiAuthURL}users/activation/`,
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axios.post(`${apiAuthURL}users/activation/`, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(
@@ -36,62 +32,66 @@ export const activateUser = async (data) => {
   }
 };
 
-export const loginUser = async (data) =>{
-    try {
-        const response = await axios.post(`${apiAuthURL}jwt/create/`, data);
-        if (response.data.access) {
-            localStorage.setItem('token', response.data.access);
-            localStorage.setItem('username', data.username);
-            return true;
-        }
+export const loginUser = async (data) => {
+  try {
+    const response = await axios.post(`${apiAuthURL}jwt/create/`, data);
+    if (response.data.access) {
+      localStorage.setItem("token", response.data.access);
+      localStorage.setItem("username", data.username);
+      return true;
     }
-    catch (error) {
-        console.error("Error logging in user:", error.response ? error.response.data : error.message);
-        throw error;
-        }
-        return false;
+  } catch (error) {
+    console.error(
+      "Error logging in user:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
+  return false;
 };
 
 export const logout = () => {
-    localStorage.removeItem('token');
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
 };
 
 export const isAuthenticated = () => {
-    const token = localStorage.getItem('token');
-    return token !== null;
-}
+  const token = localStorage.getItem("token");
+  return token !== null;
+};
 
 export const getToken = () => {
-    return localStorage.getItem('token');
-}
+  return localStorage.getItem("token");
+};
 
 export const getUsername = () => {
-    return localStorage.getItem('username');
-  };
+  return localStorage.getItem("username");
+};
 
 export const axiosInstance = axios.create({
-    baseURL: apiURL,
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-    }
-})
+  baseURL: apiURL,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    Authorization: `Bearer ${getToken()}`,
+  },
+});
 
 axiosInstance.interceptors.request.use(
-    (config) => {
-        const token = getToken();
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
-},
-(error)=>{
+  },
+  (error) => {
     return Promise.reject(error);
-}
-)
+  }
+);
 
 export const isRequestedUser = () => {
-  const {username} = useParams();
+  const { username } = useParams();
   const requestedUser = localStorage.getItem("username");
   return username == requestedUser;
-}
+};

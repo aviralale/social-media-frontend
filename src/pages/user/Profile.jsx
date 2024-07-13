@@ -3,29 +3,87 @@ import { Link, useParams } from "react-router-dom";
 import Posts from "../components/Posts/Posts";
 import { Button } from "@/components/ui/button";
 import EditProfile from "./EditProfile";
-import { BadgeCheck, Share2, UserRoundPlus } from "lucide-react";
+import {
+  BadgeCheck,
+  Share2,
+  UserRoundMinus,
+  UserRoundPlus,
+} from "lucide-react";
 import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
-import { isRequestedUser } from "@/auth/auth";
+import { axiosInstance, getToken, isRequestedUser } from "@/auth/auth";
+import { followUser } from "@/utils/socialService";
+import { toast } from "sonner";
 
 export default function Profile() {
   const { username } = useParams();
   const isDashboard = true;
   const [coverHeight, setCoverHeight] = useState("100vh");
   const [userData, setUserData] = useState(null);
-  
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [loadingFollowStatus, setLoadingFollowStatus] = useState(true);
+  const [loadingButton, setLoadingButton] = useState(false); // New loading state for the button
+  const token = getToken();
 
   useEffect(() => {
     const fetchUserData = async () => {
+      console.log("Fetching user data...");
       try {
-        const response = await axios.get(`${apiURL}/api/user/${username}/`);
+        const response = await axiosInstance.get(`/api/user/${username}/`);
+        console.log("API response:", response.data);
         setUserData(response.data);
+        setIsFollowing(response.data.is_following);
+        console.log("isFollowing set to:", response.data.is_following);
+        setLoadingFollowStatus(false);
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching user data:", err);
+        setLoadingFollowStatus(false);
       }
     };
     fetchUserData();
   }, [username]);
+
+  console.log("Rendering. isFollowing:", isFollowing);
+
+  useEffect(() => {
+    if (userData) {
+      document.title = `${userData.first_name} (@${userData.username}) - Profile`;
+    }
+  }, [userData]);
+
+  const handleFollowAction = async () => {
+    if (loadingButton) return; // Prevent multiple clicks
+
+    setLoadingButton(true);
+    try {
+      if (isFollowing) {
+        await axios.delete(
+          `${apiURL}/api/followers/${userData.username}/unfollow/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        toast.info(`Unfollowed ${userData.username}`);
+      } else {
+        await followUser(userData.username);
+        toast.success(`Following ${userData.username}`);
+      }
+
+      const response = await axios.get(`${apiURL}/api/user/${username}/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserData(response.data);
+      setIsFollowing(response.data.is_following);
+    } catch (error) {
+      toast.error("Error following/unfollowing user:", error);
+    } finally {
+      setLoadingButton(false); // Re-enable the button
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +94,18 @@ export default function Profile() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleCopyUrl = () => {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => {
+        toast.success("URL copied to clipboard");
+        // Optionally, you can show a toast or alert to indicate successful copying
+      })
+      .catch((err) => {
+        toast.error("Error copying URL to clipboard:", err);
+      });
+  };
 
   if (!userData) {
     return <p>Loading...</p>;
@@ -92,19 +162,39 @@ export default function Profile() {
                     {userData.post_count < 2 ? "post" : "posts"}
                   </Link>
                   <div className="buttons flex gap-2 ml-4">
-                    {isRequestedUser()? <EditProfile
-                      profilePicture={userData.profile_pic}
-                      coverPicture={userData.cover_pic}
-                      displayName={userData.first_name}
-                      bio={userData.bio}
-                      username={userData.username}
-                      dateOfBirth={userData.date_of_birth}
-                      gender={userData.gender}
-                      /> : 
-                      <Button variant="outline">Follow <UserRoundPlus className="ml-2" size={20}/></Button>
-                      }
-                    
-                      <Button>Share Profile<Share2 size={20} className="ml-2"/> </Button>
+                    {!isRequestedUser() && (
+                      <Button
+                        variant="outline"
+                        onClick={handleFollowAction}
+                        disabled={loadingButton} // Disable the button while loading
+                      >
+                        {isFollowing ? (
+                          <>
+                            Unfollow{" "}
+                            <UserRoundMinus className="ml-2" size={20} />
+                          </>
+                        ) : (
+                          <>
+                            Follow <UserRoundPlus className="ml-2" size={20} />
+                          </>
+                        )}
+                      </Button>
+                    )}
+                    {isRequestedUser() && (
+                      <EditProfile
+                        profilePicture={userData.profile_pic}
+                        coverPicture={userData.cover_pic}
+                        displayName={userData.first_name}
+                        bio={userData.bio}
+                        username={userData.username}
+                        dateOfBirth={userData.date_of_birth}
+                        gender={userData.gender}
+                      />
+                    )}
+                    <Button onClick={handleCopyUrl}>
+                      Share Profile
+                      <Share2 size={20} className="ml-2" />{" "}
+                    </Button>
                   </div>
                 </div>
                 <p>{userData.bio}</p>

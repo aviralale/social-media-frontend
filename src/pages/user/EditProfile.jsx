@@ -21,11 +21,15 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { ModeToggle } from "../components/ToggleMode";
 import { useState, useEffect } from "react";
-import { axiosInstance } from "@/auth/auth";
+import { axiosInstance, getToken, logout } from "@/auth/auth";
 import { toast } from "sonner";
 import { Settings } from "lucide-react";
+import DeleteAccount from "../components/User/DeleteAccount";
+import { useNavigate } from "react-router-dom";
 
 export default function EditProfile(props) {
+  const navigate = useNavigate();
+
   const [pfp, setPfp] = useState(null);
   const [coverImg, setCoverImg] = useState(null);
   const [displayName, setDisplayName] = useState(props.displayName || "");
@@ -42,7 +46,11 @@ export default function EditProfile(props) {
 
   const fetchProfileData = async () => {
     try {
-      const { data } = await axiosInstance.get("/api/auth/users/me/");
+      const { data } = await axiosInstance.get("/api/auth/users/me/", {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
       setDisplayName(data.first_name || "");
       setBio(data.bio || "");
       setGender(data.gender || "");
@@ -71,9 +79,13 @@ export default function EditProfile(props) {
     if (coverImg) formData.append("cover_pic", coverImg);
 
     try {
-      const { data } = await axiosInstance.patch("/api/auth/users/me/", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data } = await axiosInstance.patch(
+        "/api/auth/users/me/",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       setDisplayName(data.first_name || "");
       setBio(data.bio || "");
       setGender(data.gender || "");
@@ -87,14 +99,29 @@ export default function EditProfile(props) {
     }
   };
 
+  const handleLogout = () => {
+    try {
+      logout();
+      toast("Logged out successfully!");
+      navigate("/login");
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Edit Profile<Settings size={20} className="ml-2"/></Button>
+        <Button variant="outline">
+          Edit Profile
+          <Settings size={20} className="ml-2" />
+        </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle className="flex items-center"><Settings className="mr-2"/>{" "}Edit Profile</SheetTitle>
+          <SheetTitle className="flex items-center">
+            <Settings className="mr-2" /> Edit Profile
+          </SheetTitle>
           <SheetDescription>
             Make changes to your profile here. Click save when you're done.
           </SheetDescription>
@@ -186,13 +213,17 @@ export default function EditProfile(props) {
             />
           </div>
         </form>
-        <SheetFooter>
+        <SheetFooter className="mb-4">
           <SheetClose asChild>
             <Button onClick={handleSubmit} disabled={isLoading}>
               {isLoading ? "Saving..." : "Save changes"}
             </Button>
           </SheetClose>
+          <Button variant="secondary" onClick={handleLogout}>
+            Logout
+          </Button>
         </SheetFooter>
+        <DeleteAccount />
         <ModeToggle />
       </SheetContent>
     </Sheet>

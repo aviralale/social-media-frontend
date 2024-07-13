@@ -31,7 +31,7 @@ export default function Posts(props) {
               key={post.id}
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 p-2"
             >
-              <Link to={`vs/${post.author.username}/posts/${post.id}`}>
+              <Link to={`/vs/${post.author.username}/posts/${post.id}`}>
                 <Post {...post} isDashboard={props.isDashboard} />
               </Link>
             </div>
