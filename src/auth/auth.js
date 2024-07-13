@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiAuthURL, apiURL } from "@/utils/apiUrl";
+import { useParams } from "react-router-dom";
 
 export const registerUser = async (data) => {
   try {
@@ -88,3 +89,9 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error);
 }
 )
+
+export const isRequestedUser = () => {
+  const {username} = useParams();
+  const requestedUser = localStorage.getItem("username");
+  return username == requestedUser;
+}

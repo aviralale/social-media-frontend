@@ -3,15 +3,17 @@ import { Link, useParams } from "react-router-dom";
 import Posts from "../components/Posts/Posts";
 import { Button } from "@/components/ui/button";
 import EditProfile from "./EditProfile";
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Share2, UserRoundPlus } from "lucide-react";
 import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
+import { isRequestedUser } from "@/auth/auth";
 
 export default function Profile() {
   const { username } = useParams();
   const isDashboard = true;
   const [coverHeight, setCoverHeight] = useState("100vh");
   const [userData, setUserData] = useState(null);
+  
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -68,7 +70,7 @@ export default function Profile() {
                 <div className="flex items-center gap-4">
                   <p>@{userData.username}</p>{" "}
                   <Link
-                    to={`/${userData.username}/following`}
+                    to={`/vs/${userData.username}/following`}
                     className="hover:underline"
                   >
                     <span className="font-bold">
@@ -77,7 +79,7 @@ export default function Profile() {
                     following
                   </Link>
                   <Link
-                    to={`/${userData.username}/followers`}
+                    to={`/vs/${userData.username}/followers`}
                     className="hover:underline"
                   >
                     <span className="font-bold">
@@ -90,8 +92,7 @@ export default function Profile() {
                     {userData.post_count < 2 ? "post" : "posts"}
                   </Link>
                   <div className="buttons flex gap-2 ml-4">
-                    <Button>Follow</Button>
-                    <EditProfile
+                    {isRequestedUser()? <EditProfile
                       profilePicture={userData.profile_pic}
                       coverPicture={userData.cover_pic}
                       displayName={userData.first_name}
@@ -99,7 +100,11 @@ export default function Profile() {
                       username={userData.username}
                       dateOfBirth={userData.date_of_birth}
                       gender={userData.gender}
-                    />
+                      /> : 
+                      <Button variant="outline">Follow <UserRoundPlus className="ml-2" size={20}/></Button>
+                      }
+                    
+                      <Button>Share Profile<Share2 size={20} className="ml-2"/> </Button>
                   </div>
                 </div>
                 <p>{userData.bio}</p>

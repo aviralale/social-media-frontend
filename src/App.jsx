@@ -51,7 +51,7 @@ export default function App() {
           {/* Protected routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<h1>Home</h1>} />
-            <Route path="/:username" element={<Profile />} />
+            <Route path="vs/:username" element={<Profile />} />
             <Route path="/post/:postId" element={<IndividualPostPage />} />
             <Route path="/post/:postId/likers" element={<PostLikers />} />
             <Route
@@ -62,12 +62,12 @@ export default function App() {
               path="/post/:postId/comment/:commentId/reply/:replyId/likers"
               element={<ReplyLikers />}
             />
-            <Route path="/:username/followers" element={<Followers />} />
-            <Route path="/:username/following" element={<Following />} />
+            <Route path="vs/:username/followers" element={<Followers />} />
+            <Route path="vs/:username/following" element={<Following />} />
           </Route>
 
           {/* 404 route */}
-          <Route path="*" element={<PageNotFound />} />
+          <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Layout>
       <Toaster expand theme="light dark:dark" style={{

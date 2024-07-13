@@ -90,11 +90,11 @@ export default function EditProfile(props) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline"><Settings/>{" "}Settings</Button>
+        <Button variant="outline">Edit Profile<Settings size={20} className="ml-2"/></Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle className="flex items-center"><Settings/>{" "}Settings</SheetTitle>
+          <SheetTitle className="flex items-center"><Settings className="mr-2"/>{" "}Edit Profile</SheetTitle>
           <SheetDescription>
             Make changes to your profile here. Click save when you're done.
           </SheetDescription>

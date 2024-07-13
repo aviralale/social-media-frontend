@@ -18,7 +18,7 @@ export default function PostFooter(props) {
     <div className="flex items-baseline w-full gap-4 ml-2 my-2">
       <Link
         className="hover:underline p-0 flex gap-1"
-        to={`/${props.username}/posts/${props.postId}/likers`}
+        to={`/vs/${props.username}/posts/${props.postId}/likers`}
       >
         <Heart className="transform scale-x-[-1]" />
         {props.likeCount} likes

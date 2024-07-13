@@ -44,7 +44,7 @@ export default function PostHeader(props) {
           <HoverCardTrigger asChild>
             <Link
               className="flex items-center gap-2 mb-2 hover:underline"
-              to={`/${props.username}`}
+              to={`/vs/${props.username}`}
             >
               <Avatar className="w-8 h-8">
                 <AvatarImage
