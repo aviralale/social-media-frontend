@@ -1,1 +1,1 @@
-# aocial media using React + Vite
+# social media using React + Vite
