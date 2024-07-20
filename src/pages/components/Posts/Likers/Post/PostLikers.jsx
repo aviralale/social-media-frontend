@@ -5,13 +5,13 @@ import { useParams } from "react-router-dom";
 import PostLiker from "./PostLiker";
 
 export default function PostLikers() {
-  const { postid } = useParams();
+  const { postId } = useParams();
   const [likers, setLikers] = useState([]);
   useEffect(() => {
     const fetchPostLikers = async () => {
       try {
         const response = await axios.get(
-          `${apiURL}/api/posts/${postid}/likers/`
+          `${apiURL}/api/posts/${postId}/likers/`
         );
         setLikers(response.data);
       } catch (err) {

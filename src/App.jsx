@@ -31,35 +31,38 @@ export default function App() {
           <Route element={<PublicRoute />}>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            </Route>
-            <Route
-              path="/activate/:uid/:token"
-              element={<AccountActivated />}
-            />
-            <Route path="/activate" element={<AccountActivation />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/password/reset/confirm/:uid/:token"
-              element={<ResetPasswordConfirm />}
-            />
-            <Route path="/forgot-username" element={<ForgotUsername />} />
-            <Route
-              path="/username/reset/confirm/:uid/:token"
-              element={<ResetUsernameConfirm />}
-            />
+          </Route>
+          <Route path="/activate/:uid/:token" element={<AccountActivated />} />
+          <Route path="/activate" element={<AccountActivation />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/password/reset/confirm/:uid/:token"
+            element={<ResetPasswordConfirm />}
+          />
+          <Route path="/forgot-username" element={<ForgotUsername />} />
+          <Route
+            path="/username/reset/confirm/:uid/:token"
+            element={<ResetUsernameConfirm />}
+          />
 
           {/* Protected routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<h1>Home</h1>} />
             <Route path="vs/:username" element={<Profile />} />
-            <Route path="/post/:postId" element={<IndividualPostPage />} />
-            <Route path="/post/:postId/likers" element={<PostLikers />} />
             <Route
-              path="/post/:postId/comment/:commentId/likers"
+              path="vs/:username/posts/:postId"
+              element={<IndividualPostPage />}
+            />
+            <Route
+              path="/vs/:username/posts/:postId/likers"
+              element={<PostLikers />}
+            />
+            <Route
+              path="posts/:postId/comment/:commentId/likers"
               element={<CommentLikers />}
             />
             <Route
-              path="/post/:postId/comment/:commentId/reply/:replyId/likers"
+              path="posts/:postId/comment/:commentId/reply/:replyId/likers"
               element={<ReplyLikers />}
             />
             <Route path="vs/:username/followers" element={<Followers />} />
@@ -70,9 +73,13 @@ export default function App() {
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </Layout>
-      <Toaster expand theme="light dark:dark" style={{
-        minHeight: "4rem"
-      }} />
+      <Toaster
+        expand
+        theme="light dark:dark"
+        style={{
+          minHeight: "4rem",
+        }}
+      />
     </ThemeProvider>
   );
 }

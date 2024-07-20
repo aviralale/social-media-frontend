@@ -5,17 +5,17 @@ import PostHeader from "../components/Posts/PostHeader";
 import { Comments } from "../components/Posts/comment/Comments";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
+import { axiosInstance } from "@/auth/auth";
 
 export default function IndividualPostPage() {
-  const { username, postid } = useParams();
+  const { username, postId } = useParams();
   const [postData, setPostData] = useState(null);
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await axios.get(
-          `${apiURL}/api/users/${username}/posts/${postid}/`
+        const response = await axiosInstance.get(
+          `${apiURL}/api/users/${username}/posts/${postId}/`
         );
         setPostData(response.data);
       } catch (err) {
@@ -23,7 +23,7 @@ export default function IndividualPostPage() {
       }
     };
     fetchPostData();
-  }, [username, postid]);
+  }, [username, postId]);
   if (!postData) {
     return <h1>Loading...!</h1>;
   }
