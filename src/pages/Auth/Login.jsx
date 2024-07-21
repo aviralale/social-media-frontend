@@ -12,26 +12,43 @@ import { Label } from "@/components/ui/label";
 import LogInBg from "../../assets/photos/login-bg.png";
 import { useState } from "react";
 import { loginUser } from "@/auth/auth";
+import { toast } from "sonner";
 
 export function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       username: username,
       password: password,
-    }
-    if (await loginUser(data)) {
-      navigate("/");
-    } else {
-      alert("Invalid username or password");
+    };
+    try {
+      if (await loginUser(data)) {
+        toast.success("Logged in successfully.");
+        navigate("/");
+      } else {
+        toast.error("Invalid username or password");
+      }
+    } catch (error) {
+      const errorResponse = error.response
+        ? error.response.data
+        : {
+            detail:
+              "An error occurred, please check your username and password.",
+          };
+      const errorMessages = Object.values(errorResponse).flat();
+      errorMessages.forEach((message) => {
+        toast.error(message);
+      });
     }
   };
+
   return (
     <div className="flex items-center justify-center mt-8">
-      <img src={LogInBg} alt="" className="absolute bottom-0 z-[-1] " />
+      <img src={LogInBg} alt="" className="absolute bottom-0 z-[-1]" />
       <Card className="mx-auto max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl yatra-one-regular">Login</CardTitle>

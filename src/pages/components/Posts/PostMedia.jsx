@@ -1,6 +1,5 @@
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
-
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -10,12 +9,14 @@ import {
 import TruncateText from "@/utils/TruncateText";
 import formatDate from "@/utils/formatDate";
 import { Link } from "react-router-dom";
-import { apiURL } from "@/utils/apiUrl";
+import { getMediaUrl } from "@/utils/getMediaUrl";
 
 export default function PostMedia(props) {
   const plugin = React.useRef(
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
+
+  console.log(props.commentCount);
   return props.isDashboard ? (
     <Carousel
       plugins={[]}
@@ -31,7 +32,7 @@ export default function PostMedia(props) {
                 <CardContent className="flex aspect-square items-center justify-center p-2">
                   {item.type === "video" ? (
                     <video
-                      src={`${apiURL}${item.file}`}
+                      src={getMediaUrl(item.file)}
                       autoPlay
                       className="rounded-lg w-full h-full object-cover"
                     >
@@ -39,7 +40,7 @@ export default function PostMedia(props) {
                     </video>
                   ) : (
                     <img
-                      src={`${apiURL}${item.file}`}
+                      src={getMediaUrl(item.file)}
                       alt={`Media ${item.id}`}
                       className="rounded-lg w-full h-full object-cover"
                     />
@@ -68,7 +69,7 @@ export default function PostMedia(props) {
                 <CardContent className="flex aspect-square items-center justify-center p-2">
                   {item.type === "video" ? (
                     <video
-                      src={`${apiURL}${item.file}`}
+                      src={getMediaUrl(item.file)}
                       autoPlay
                       className="rounded-lg w-full h-full object-cover cursor-grab active:cursor-grabbing"
                     >
@@ -76,7 +77,7 @@ export default function PostMedia(props) {
                     </video>
                   ) : (
                     <img
-                      src={`${apiURL}${item.file}`}
+                      src={getMediaUrl(item.file)}
                       alt={`Media ${item.id}`}
                       className="rounded-lg w-full h-full object-cover cursor-grab active:cursor-grabbing"
                     />

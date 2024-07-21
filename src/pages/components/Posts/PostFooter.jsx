@@ -11,7 +11,7 @@ export default function PostFooter(props) {
       </span>
       <span className="no-underline p-0 flex gap-1">
         <MessageCircle className="transform scale-x-[-1]" />
-        {props.commentCount}
+        {props.commentCount} {props.commentCount < 2 ? "comment" : "comments"}
       </span>
     </div>
   ) : (
@@ -21,7 +21,7 @@ export default function PostFooter(props) {
         to={`/vs/${props.username}/posts/${props.postId}/likers`}
       >
         <Heart className="transform scale-x-[-1]" />
-        {props.likeCount} likes
+        {props.likeCount} {props.likeCount < 2 ? "like" : "likes"}
       </Link>
     </div>
   );

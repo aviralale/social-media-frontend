@@ -3,6 +3,7 @@ import Post from "./Post";
 import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
 import { Link, useParams } from "react-router-dom";
+import { axiosInstance } from "@/auth/auth";
 
 export default function Posts(props) {
   const { username } = useParams();
@@ -10,7 +11,7 @@ export default function Posts(props) {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${apiURL}/api/users/${username}/posts/`
         );
         setPosts(Array.isArray(response.data) ? response.data : []);

@@ -21,6 +21,7 @@ import Following from "./pages/Social/Following";
 import PrivateRoute from "./auth/PrivateRoute";
 import PublicRoute from "./auth/PublicRoute";
 import { Toaster } from "sonner";
+import Home from "./pages/Social/Home";
 
 export default function App() {
   return (
@@ -47,7 +48,7 @@ export default function App() {
 
           {/* Protected routes */}
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<h1>Home</h1>} />
+            <Route path="/" element={<Home />} />
             <Route path="vs/:username" element={<Profile />} />
             <Route
               path="vs/:username/posts/:postId"
@@ -74,8 +75,6 @@ export default function App() {
         </Routes>
       </Layout>
       <Toaster
-        expand
-        theme="light dark:dark"
         style={{
           minHeight: "4rem",
         }}

@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import RegBg from "../../assets/photos/reg-bg.png";
 import { useState } from "react";
 import { registerUser } from "@/auth/auth";
+import { toast } from "sonner";
 
 export default function Register() {
   const [firstName, setFirstName] = useState("");
@@ -38,18 +38,20 @@ export default function Register() {
       re_password: rePassword,
     };
     try {
-      const res = registerUser(data);
-      setMessage("Registration successful");
+      const res = await registerUser(data);
       console.log(res);
       navigate("/activate");
     } catch (err) {
-      setMessage("Registration failed");
+      const errorMessages = Object.values(err).flat();
+      errorMessages.forEach((message) => {
+        toast.error(message);
+      });
     }
   };
 
   return (
     <div className="flex items-center justify-center mt-8">
-      <img src={RegBg} alt="" className="absolute bottom-0 z-[-1] " />
+      <img src={RegBg} alt="" className="absolute bottom-0 z-[-1]" />
       <Card className="max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl yatra-one-regular">Register</CardTitle>
@@ -72,7 +74,7 @@ export default function Register() {
               </div>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="email">Username</Label>
+              <Label htmlFor="username">Username</Label>
               <Input
                 id="username"
                 type="text"
@@ -104,7 +106,7 @@ export default function Register() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password">Retype Password</Label>
+              <Label htmlFor="re_password">Retype Password</Label>
               <Input
                 id="re_password"
                 value={rePassword}
@@ -117,7 +119,6 @@ export default function Register() {
               Create an account
             </Button>
           </form>
-          {message && <p>{message}</p>}
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
             <Link to="/login" className="underline">

@@ -33,6 +33,7 @@ export default function Post({
             media={media}
             caption={content}
             postPosted={created_at}
+            commentCount={comment_count}
             isDashboard={isDashboard}
           />
         </div>

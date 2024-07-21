@@ -9,10 +9,13 @@ export const registerUser = async (data) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    if (error.response) {
+      throw error.response.data;
+    } else {
+      throw new Error("An unexpected error occurred");
+    }
   }
 };
 
@@ -42,11 +45,7 @@ export const loginUser = async (data) => {
       return true;
     }
   } catch (error) {
-    console.error(
-      "Error logging in user:",
-      error.response ? error.response.data : error.message
-    );
-    throw error;
+    throw error.response ? error.response.data : { detail: error.detail };
   }
   return false;
 };
