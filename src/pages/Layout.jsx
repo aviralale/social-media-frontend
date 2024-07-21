@@ -1,7 +1,7 @@
 import { isAuthenticated } from "@/auth/auth";
 import Navbar from "./components/Misc/Navbar";
 import { useLocation } from "react-router-dom";
-import Sidebar from "./components/Misc/Sidebar";
+import { useState } from "react";
 export default function Layout({ children }) {
   const CheckIfAtHome = () => {
     const location = useLocation();

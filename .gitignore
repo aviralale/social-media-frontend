@@ -30,3 +30,6 @@ yarn-error.log*
 # Windows files
 Thumbs.db
 .gitignore
+
+.gitignore
+.npmrc

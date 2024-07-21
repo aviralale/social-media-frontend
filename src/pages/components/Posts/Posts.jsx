@@ -6,6 +6,7 @@ import { axiosInstance } from "@/auth/auth";
 import Masonry from "react-masonry-css";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "../Misc/Loader";
+import FeedEnd from "../Misc/FeedEnd";
 
 export default function Posts(props) {
   const { username } = useParams();
@@ -65,6 +66,7 @@ export default function Posts(props) {
         dataLength={posts.length}
         next={fetchMoreData}
         hasMore={currentPage < totalPages}
+        endMessage={<FeedEnd />}
         loader={
           <div className="w-full flex justify-center">
             <Loader />
@@ -78,9 +80,7 @@ export default function Posts(props) {
         >
           {posts.map((post) => (
             <div key={post.id} className="mb-4">
-              <Link to={`/vs/${post.author.username}/posts/${post.id}`}>
-                <Post {...post} isDashboard={props.isDashboard} />
-              </Link>
+              <Post {...post} isDashboard={props.isDashboard} />
             </div>
           ))}
         </Masonry>

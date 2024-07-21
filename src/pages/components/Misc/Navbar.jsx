@@ -1,6 +1,13 @@
 import React from "react";
 import { getUsername } from "@/auth/auth";
-import { Compass, MessagesSquare, SquarePlus, UserRound } from "lucide-react";
+import {
+  AddSquareIcon,
+  DiscoverCircleIcon,
+  MessageMultiple02Icon,
+  Notification02Icon,
+  Search01Icon,
+  UserSharingIcon,
+} from "@/Icons/Icons";
 import { NavLink } from "react-router-dom";
 import Logo from "@/assets/photos/logo-white.svg";
 import {
@@ -51,10 +58,27 @@ export default function Navbar() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <NavLink
+                  to="/search"
+                  className="transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full block"
+                >
+                  <Search01Icon />
+                </NavLink>
+              </TooltipTrigger>
+              <TooltipContent className="mb-2">
+                <p>Search</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </li>
+        <li>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <NavLink
                   to="/explore"
                   className="transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full block"
                 >
-                  <Compass />
+                  <DiscoverCircleIcon />
                 </NavLink>
               </TooltipTrigger>
               <TooltipContent className="mb-2">
@@ -67,23 +91,47 @@ export default function Navbar() {
         <li>
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger asChild>
-                <Dialog>
+              <Dialog>
+                <TooltipTrigger asChild>
                   <DialogTrigger className="flex transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full items-center gap-2 ease p-2 rounded-xl ">
-                    <SquarePlus />
+                    <AddSquareIcon />
                   </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle className="yatra-one-regular">
-                        Create Post
-                      </DialogTitle>
-                      <CreatePost />
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-              </TooltipTrigger>
+                </TooltipTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="yatra-one-regular">
+                      Create Post
+                    </DialogTitle>
+                    <CreatePost />
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
               <TooltipContent className="mb-2">
                 <p>Create new post</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </li>
+        <li>
+          <TooltipProvider>
+            <Tooltip>
+              <Dialog>
+                <TooltipTrigger asChild>
+                  <DialogTrigger className="flex transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full items-center gap-2 ease p-2 rounded-xl ">
+                    <Notification02Icon />
+                  </DialogTrigger>
+                </TooltipTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="yatra-one-regular">
+                      Create Post
+                    </DialogTitle>
+                    <CreatePost />
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+              <TooltipContent className="mb-2">
+                <p>Notifications</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -97,7 +145,7 @@ export default function Navbar() {
                   to="/inbox"
                   className="transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full block"
                 >
-                  <MessagesSquare />
+                  <MessageMultiple02Icon />
                 </NavLink>
               </TooltipTrigger>
               <TooltipContent className="mb-2">
@@ -115,7 +163,7 @@ export default function Navbar() {
                   to={`/vs/${username}`}
                   className="transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full block"
                 >
-                  <UserRound />
+                  <UserSharingIcon />
                 </NavLink>
               </TooltipTrigger>
               <TooltipContent className="mb-2">

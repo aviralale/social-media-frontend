@@ -1,5 +1,4 @@
 import { getUsername } from "@/auth/auth";
-import { Compass, MessagesSquare, SquarePlus, UserRound } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import Logo from "@/assets/photos/logo-white.svg";
 import Navbar from "./Navbar";
@@ -11,8 +10,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import CreatePost from "../Posts/CreatePost";
+import {
+  AddSquareIcon,
+  DiscoverCircleIcon,
+  MessageMultiple02Icon,
+  Notification02Icon,
+  Search01Icon,
+  UserSharingIcon,
+} from "@/Icons/Icons";
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   const username = getUsername();
   const LargeScreenNavbar = () => (
     <div className=" flex flex-col justify-between border-r min-h-[100vh] pr-16 border-gray-500">
@@ -29,9 +36,10 @@ export default function Sidebar() {
             ),
             text: "VibeSphere",
           },
-          { to: "/inbox", icon: <MessagesSquare />, text: "Inbox" },
-          { to: "/explore", icon: <Compass />, text: "Explore" },
-          { to: `/vs/${username}`, icon: <UserRound />, text: "Profile" },
+          { to: "/search", icon: <Search01Icon />, text: "Search" },
+          { to: "/explore", icon: <DiscoverCircleIcon />, text: "Explore" },
+          { to: "/inbox", icon: <MessageMultiple02Icon />, text: "Inbox" },
+          { to: `/vs/${username}`, icon: <UserSharingIcon />, text: "Profile" },
         ].map((item, index) => (
           <li key={index}>
             <NavLink
@@ -53,17 +61,22 @@ export default function Sidebar() {
         ))}
         <Dialog>
           <DialogTrigger className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900 ">
-            <SquarePlus /> Create
+            <AddSquareIcon /> Create
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle className="yatra-one-regular">
                 Create Post
               </DialogTitle>
-              <CreatePost />
+              <CreatePost setProgress={props.setProgress} />
             </DialogHeader>
           </DialogContent>
         </Dialog>
+        <li>
+          <Link className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900">
+            <Notification02Icon /> Notifications
+          </Link>
+        </li>
       </ul>
     </div>
   );

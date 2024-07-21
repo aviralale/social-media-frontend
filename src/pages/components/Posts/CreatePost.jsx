@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 const MAX_MEDIA = 10;
 
-const CreatePost = () => {
+const CreatePost = (props) => {
   const [content, setContent] = useState("");
   const [media, setMedia] = useState([]);
 
@@ -39,6 +39,7 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    props.setProgress(10);
     const formData = new FormData();
     formData.append("content", content);
     media.forEach((file) => {
@@ -53,6 +54,7 @@ const CreatePost = () => {
       });
       setContent("");
       setMedia([]);
+      props.setProgress(100);
       toast.success("Posted successfully.");
     } catch (error) {
       toast.error("There was an error creating the post!");
@@ -80,7 +82,7 @@ const CreatePost = () => {
         <video
           src={URL.createObjectURL(file)}
           className="object-cover w-full h-full"
-          controls
+          autoPlay
         />
       );
     }
@@ -96,7 +98,6 @@ const CreatePost = () => {
         placeholder="What's on your mind?"
         value={content}
         onChange={handleContentChange}
-        required
         className="w-full p-3 border rounded-lg"
       />
       <div

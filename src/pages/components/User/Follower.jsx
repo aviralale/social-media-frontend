@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/hover-card";
 import { BadgeCheck } from "lucide-react";
 import { apiURL } from "@/utils/apiUrl";
+import { CheckmarkBadge02Icon } from "@/Icons/Icons";
 
 export default function Follower({
   username,
@@ -30,7 +31,8 @@ export default function Follower({
               />
               <AvatarFallback>AH</AvatarFallback>
             </Avatar>
-            @{username} {is_verified ? <BadgeCheck size={16} /> : ""}
+            @{username}{" "}
+            {is_verified ? <CheckmarkBadge02Icon width={16} height={16} /> : ""}
           </Link>
         </HoverCardTrigger>
         <HoverCardContent className="max-w-80 flex">

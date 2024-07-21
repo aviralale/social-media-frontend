@@ -17,46 +17,50 @@ export default function PostMedia(props) {
   );
 
   return props.isDashboard ? (
-    <Carousel
-      plugins={[]}
-      className="w-full max-w-md mt-4"
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
-    >
-      <CarouselContent>
-        {props.media.map((item) => (
-          <CarouselItem key={item.id}>
-            <div className="">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-2">
-                  {item.type === "video" ? (
-                    <video
-                      src={getMediaUrl(item.file)}
-                      autoPlay
-                      className="rounded-lg w-full h-full object-cover"
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                  ) : (
-                    <img
-                      src={getMediaUrl(item.file)}
-                      alt={`Media ${item.id}`}
-                      className="rounded-lg w-full h-full object-cover"
-                    />
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <TruncateText
-        className="ml-2 text-sm mb-4"
-        text={props.caption}
-        limit={48}
-      />
-      <p className="text-xs ml-2 opacity-50">{formatDate(props.postPosted)}</p>
-    </Carousel>
+    <Link to={`/vs/${props.username}/posts/${props.postId}`}>
+      <Carousel
+        plugins={[]}
+        className="w-full max-w-md mt-4"
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
+      >
+        <CarouselContent>
+          {props.media.map((item) => (
+            <CarouselItem key={item.id}>
+              <div className="">
+                <Card>
+                  <CardContent className="flex aspect-square items-center justify-center p-2">
+                    {item.type === "video" ? (
+                      <video
+                        src={getMediaUrl(item.file)}
+                        autoPlay
+                        className="rounded-lg w-full h-full object-cover"
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      <img
+                        src={getMediaUrl(item.file)}
+                        alt={`Media ${item.id}`}
+                        className="rounded-lg w-full h-full object-cover"
+                      />
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <TruncateText
+          className="ml-2 text-sm mb-4"
+          text={props.caption}
+          limit={48}
+        />
+        <p className="text-xs ml-2 opacity-50">
+          {formatDate(props.postPosted)}
+        </p>
+      </Carousel>
+    </Link>
   ) : (
     <Carousel
       plugins={[plugin.current]}
@@ -64,38 +68,77 @@ export default function PostMedia(props) {
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
-      <CarouselContent>
-        {props.media.map((item) => (
-          <CarouselItem key={item.id}>
-            <div className="">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-2">
-                  {item.type === "video" ? (
-                    <video
-                      src={getMediaUrl(item.file)}
-                      autoPlay
-                      className="rounded-lg w-full h-full object-cover cursor-grab active:cursor-grabbing"
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                  ) : (
-                    <img
-                      src={getMediaUrl(item.file)}
-                      alt={`Media ${item.id}`}
-                      className="rounded-lg w-full h-full object-cover cursor-grab active:cursor-grabbing"
-                    />
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <TruncateText
-        className="ml-2 text-sm mb-4"
-        text={props.caption}
-        limit={48}
-      />
+      {props.isIndividualPage ? (
+        <>
+          <CarouselContent>
+            {props.media.map((item) => (
+              <CarouselItem key={item.id}>
+                <div className="">
+                  <Card>
+                    <CardContent className="flex aspect-square items-center justify-center p-2">
+                      {item.type === "video" ? (
+                        <video
+                          src={getMediaUrl(item.file)}
+                          autoPlay
+                          className="rounded-lg w-full h-full object-cover"
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <img
+                          src={getMediaUrl(item.file)}
+                          alt={`Media ${item.id}`}
+                          className="rounded-lg w-full h-full object-cover"
+                        />
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <TruncateText
+            className="ml-2 text-sm mb-4"
+            text={props.caption}
+            limit={48}
+          />
+        </>
+      ) : (
+        <Link to={`/vs/${props.username}/posts/${props.postId}`}>
+          <CarouselContent>
+            {props.media.map((item) => (
+              <CarouselItem key={item.id}>
+                <div className="">
+                  <Card>
+                    <CardContent className="flex aspect-square items-center justify-center p-2">
+                      {item.type === "video" ? (
+                        <video
+                          src={getMediaUrl(item.file)}
+                          autoPlay
+                          className="rounded-lg w-full h-full object-cover"
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : (
+                        <img
+                          src={getMediaUrl(item.file)}
+                          alt={`Media ${item.id}`}
+                          className="rounded-lg w-full h-full object-cover"
+                        />
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <TruncateText
+            className="ml-2 text-sm mb-4"
+            text={props.caption}
+            limit={48}
+          />
+        </Link>
+      )}
       <div className="flex justify-between items-baseline">
         <p className="text-xs ml-2 opacity-50">
           {formatDate(props.postPosted)}

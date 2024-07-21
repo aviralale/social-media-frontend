@@ -28,7 +28,7 @@ export default function SidebarRight({ first_name, profile_pic }) {
         <li>
           <NavLink
             to={`/vs/${username}`}
-            className={`flex items-center gap-2 transition-all ease duration-200 p-2 pr-4 rounded-xl hover:bg-zinc-900 mb-4`}
+            className={`flex gap-2 transition-all ease duration-200 p-2 pr-4 rounded-xl hover:bg-zinc-900 mb-4`}
           >
             <Avatar className="w-16 h-16">
               <AvatarImage
@@ -37,8 +37,8 @@ export default function SidebarRight({ first_name, profile_pic }) {
               />
               <AvatarFallback>{username}</AvatarFallback>
             </Avatar>
-            <span className="flex flex-col justify-center">
-              <h1 className="text-2xl yatra-one-regular">{first_name}</h1>
+            <span className="flex flex-col ">
+              <h1 className="text-xl yatra-one-regular">{first_name}</h1>
               <p className="text-xs -mt-2">@{username}</p>
             </span>
           </NavLink>

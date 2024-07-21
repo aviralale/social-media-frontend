@@ -19,6 +19,7 @@ export default function Post({
         <div className="postHeader">
           <PostHeader
             username={author.username}
+            postId={id}
             isVerified={author.is_verified}
             followerCount={author.follower_count}
             followingCount={author.following_count}
@@ -30,6 +31,8 @@ export default function Post({
         </div>
         <div className="postBody">
           <PostMedia
+            postId={id}
+            username={author.username}
             media={media}
             caption={content}
             postPosted={created_at}

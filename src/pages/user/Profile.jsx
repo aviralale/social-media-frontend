@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import useDocumentTitle from "@/utils/useDocumentTitle";
 import Loader from "../components/Misc/Loader";
 import MutualConnections from "../components/User/MutualConnections";
+import { CheckmarkBadge02Icon } from "@/Icons/Icons";
 
 export default function Profile() {
   const { username } = useParams();
@@ -135,7 +136,9 @@ export default function Profile() {
               <div className="flex flex-col">
                 <h1 className="text-9xl yatra-one-regular font-bold flex items-center gap-5 mb-5">
                   {userData.first_name}
-                  {userData.is_verified && <BadgeCheck size="96px" />}
+                  {userData.is_verified && (
+                    <CheckmarkBadge02Icon width={96} height={96} />
+                  )}
                 </h1>
                 <div className="flex items-center gap-4">
                   <p>@{userData.username}</p>{" "}

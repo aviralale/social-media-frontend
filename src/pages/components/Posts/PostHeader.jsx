@@ -25,6 +25,7 @@ import { useState } from "react";
 import formatDate from "@/utils/formatDate";
 import { apiURL } from "@/utils/apiUrl";
 import { getMediaUrl } from "@/utils/getMediaUrl";
+import { CheckmarkBadge02Icon, MoreVerticalCircle02Icon } from "@/Icons/Icons";
 
 export default function PostHeader(props) {
   const [report, setReport] = useState(null);
@@ -55,12 +56,16 @@ export default function PostHeader(props) {
                 <AvatarFallback>AH</AvatarFallback>
               </Avatar>
               @{props.username}{" "}
-              {props.isVerified ? <BadgeCheck size={16} /> : ""}
+              {props.isVerified ? (
+                <CheckmarkBadge02Icon swidth={16} height={16} />
+              ) : (
+                ""
+              )}
             </Link>
           </HoverCardTrigger>
           <Drawer>
             <DrawerTrigger>
-              <EllipsisVertical />
+              <MoreVerticalCircle02Icon />
             </DrawerTrigger>
             <DrawerContent>
               <DrawerHeader>
@@ -118,7 +123,11 @@ export default function PostHeader(props) {
             <div className="space-y-1">
               <h4 className="text-sm font-semibold flex gap-1 items-center ">
                 @{props.username}
-                {props.isVerified ? <BadgeCheck size={16} /> : ""}
+                {props.isVerified ? (
+                  <CheckmarkBadge02Icon width={16} height={16} />
+                ) : (
+                  ""
+                )}
               </h4>
               <span to="#" className=" text-sm">
                 <span className="font-bold">{props.followingCount} </span>

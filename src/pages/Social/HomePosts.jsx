@@ -5,6 +5,7 @@ import Post from "../components/Posts/Post";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import Loader from "../components/Misc/Loader";
+import FeedEnd from "../components/Misc/FeedEnd";
 
 export default function HomePosts() {
   const [posts, setPosts] = useState([]);
@@ -62,14 +63,12 @@ export default function HomePosts() {
             <Loader />
           </div>
         }
-        endMessage={<p className="text-center">No more posts.</p>}
+        endMessage={<FeedEnd />}
       >
         <div className="flex flex-col justify-center align-center w-full">
           {posts.map((post) => (
             <div key={post.id} className="w-full p-2">
-              <Link to={`/vs/${post.author.username}/posts/${post.id}`}>
-                <Post {...post} isDashboard={isDashboard} />
-              </Link>
+              <Post {...post} isDashboard={isDashboard} />
             </div>
           ))}
         </div>

@@ -1,7 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import Comment from "./Comment";
-import commentData from "@/data/commentData";
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -10,13 +9,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 export function Comments() {
-  const { postid } = useParams();
+  const { postId } = useParams();
   const [comments, setComments] = useState([]);
   useEffect(() => {
     const fetchCommments = async () => {
       try {
         const response = await axios.get(
-          `${apiURL}/api/posts/${postid}/comments/`
+          `${apiURL}/api/posts/${postId}/comments/`
         );
         setComments(response.data);
       } catch (err) {

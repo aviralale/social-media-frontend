@@ -31,24 +31,25 @@ export default function MutualConnections(props) {
   return (
     <div className={`flex items-center gap-2 ${props.className}`}>
       <ul className="flex items-center">
-        {mutualConnectionsLength > 0 ? (
-          props.isText ? (
-            <h2
-              className={`mr-4 ${
-                props.textSize ? "text-"(props.textSize) : "font-bold"
-              }  `}
-            >
-              Followed by
-            </h2>
-          ) : null
-        ) : null}
-        {displayedConnections.map((connection) => (
+        {mutualConnectionsLength > 0 && props.isText && (
+          <h2
+            className={`mr-4 ${
+              props.textSize ? `text-${props.textSize}` : "font-bold"
+            }`}
+          >
+            Followed by
+          </h2>
+        )}
+        {displayedConnections.map((connection, index) => (
           <Link
             key={connection.id}
             to={`/vs/${connection.username}`}
-            className={`border border-gray-500 rounded-full -ml-2`}
+            className="relative -ml-2 group"
+            style={{ zIndex: index }}
           >
-            <Avatar className={`w-${props.pfpSize} h-${props.pfpSize}`}>
+            <Avatar
+              className={`w-${props.pfpSize} h-${props.pfpSize} relative transition-all duration-200 ease-in-out group-hover:z-10 group-hover:scale-110`}
+            >
               <AvatarImage
                 src={getMediaUrl(connection.profile_pic)}
                 className="aspect-square object-cover"

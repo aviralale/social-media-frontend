@@ -6,15 +6,17 @@ import SidebarRight from "../components/Misc/SidebarRight";
 import { myUserData } from "@/auth/auth";
 import Loader from "../components/Misc/Loader";
 
-export default function Home() {
+export default function Home(props) {
   useDocumentTitle("Home");
   const [data, setData] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
+        props.setProgress(10);
         const result = await myUserData();
         setData(result);
+        props.setProgress(100);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -34,7 +36,7 @@ export default function Home() {
   return (
     <div className="flex justify-between min-w-[100vw]">
       <div className="fixed">
-        <Sidebar />
+        <Sidebar setProgress={props.setProgress} />
       </div>
       <div className="w-96"></div>
       <div>

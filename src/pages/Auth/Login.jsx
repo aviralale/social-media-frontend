@@ -14,7 +14,7 @@ import { useState } from "react";
 import { loginUser } from "@/auth/auth";
 import { toast } from "sonner";
 
-export function Login() {
+export function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -26,10 +26,13 @@ export function Login() {
       password: password,
     };
     try {
+      props.setProgress(10);
       if (await loginUser(data)) {
         toast.success("Logged in successfully.");
+        props.setProgress(100);
         navigate("/");
       } else {
+        props.setProgress(100);
         toast.error("Invalid username or password");
       }
     } catch (error) {

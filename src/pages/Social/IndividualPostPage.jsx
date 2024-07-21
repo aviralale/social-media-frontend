@@ -29,7 +29,7 @@ export default function IndividualPostPage() {
   }
   return (
     <>
-      <div className="border p-3 rounded-md h-full">
+      <div className="border p-3 mt-3 rounded-md h-full">
         <div className="flex gap-8">
           <div>
             <PostHeader
@@ -43,6 +43,7 @@ export default function IndividualPostPage() {
               postPosted={postData.created_at}
             />
             <PostMedia
+              isIndividualPage
               media={postData.media}
               caption={postData.content}
               postPosted={postData.created_at}

@@ -86,6 +86,22 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+
+    animation: {
+      draw: "draw 1s ease-in-out forwards",
+    },
+    keyframes: {
+      draw: {
+        "0%": {
+          strokeDasharray: "40",
+          strokeDashoffset: "40",
+        },
+        "100%": {
+          strokeDasharray: "40",
+          strokeDashoffset: "0",
+        },
+      },
+    },
   },
   plugins: [require("tailwindcss-animate")],
 };

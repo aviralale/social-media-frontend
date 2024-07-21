@@ -14,7 +14,7 @@ import { useState } from "react";
 import { registerUser } from "@/auth/auth";
 import { toast } from "sonner";
 
-export default function Register() {
+export default function Register(props) {
   const [firstName, setFirstName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -38,13 +38,17 @@ export default function Register() {
       re_password: rePassword,
     };
     try {
+      props.setProgress(10);
       const res = await registerUser(data);
       console.log(res);
+      props.setProgress(100);
       navigate("/activate");
     } catch (err) {
+      props.setProgress(10);
       const errorMessages = Object.values(err).flat();
       errorMessages.forEach((message) => {
         toast.error(message);
+        props.setProgress(100);
       });
     }
   };
