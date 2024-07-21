@@ -22,6 +22,8 @@ import PrivateRoute from "./auth/PrivateRoute";
 import PublicRoute from "./auth/PublicRoute";
 import { Toaster } from "sonner";
 import Home from "./pages/Social/Home";
+import CreatePost from "./pages/components/Posts/CreatePost";
+import ExplorePage from "./pages/Social/Explore";
 
 export default function App() {
   return (
@@ -49,6 +51,7 @@ export default function App() {
           {/* Protected routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<Home />} />
+            <Route path="/explore" element={<ExplorePage />} />
             <Route path="vs/:username" element={<Profile />} />
             <Route
               path="vs/:username/posts/:postId"
@@ -68,6 +71,7 @@ export default function App() {
             />
             <Route path="vs/:username/followers" element={<Followers />} />
             <Route path="vs/:username/following" element={<Following />} />
+            <Route path="create" element={<CreatePost />} />
           </Route>
 
           {/* 404 route */}

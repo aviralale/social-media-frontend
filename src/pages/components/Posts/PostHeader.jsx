@@ -39,7 +39,7 @@ export default function PostHeader(props) {
     }
   };
   return (
-    <>
+    <div className="border-b pb-2 border-gray-500/55">
       <HoverCard>
         <div className="flex justify-between">
           <HoverCardTrigger asChild>
@@ -139,6 +139,6 @@ export default function PostHeader(props) {
           </div>
         </HoverCardContent>
       </HoverCard>
-    </>
+    </div>
   );
 }

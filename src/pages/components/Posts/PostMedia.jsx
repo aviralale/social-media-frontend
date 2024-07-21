@@ -16,11 +16,10 @@ export default function PostMedia(props) {
     Autoplay({ delay: 3000, stopOnInteraction: true })
   );
 
-  console.log(props.commentCount);
   return props.isDashboard ? (
     <Carousel
       plugins={[]}
-      className="w-full max-w-md"
+      className="w-full max-w-md mt-4"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
@@ -51,13 +50,17 @@ export default function PostMedia(props) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <TruncateText className="ml-2 text-sm" text={props.caption} limit={48} />
+      <TruncateText
+        className="ml-2 text-sm mb-4"
+        text={props.caption}
+        limit={48}
+      />
       <p className="text-xs ml-2 opacity-50">{formatDate(props.postPosted)}</p>
     </Carousel>
   ) : (
     <Carousel
       plugins={[plugin.current]}
-      className="w-full max-w-3xl"
+      className="w-full max-w-3xl mt-4"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
@@ -88,7 +91,11 @@ export default function PostMedia(props) {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <TruncateText className="ml-2 text-sm" text={props.caption} limit={48} />
+      <TruncateText
+        className="ml-2 text-sm mb-4"
+        text={props.caption}
+        limit={48}
+      />
       <div className="flex justify-between items-baseline">
         <p className="text-xs ml-2 opacity-50">
           {formatDate(props.postPosted)}

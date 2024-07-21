@@ -44,25 +44,29 @@ export default function HomePosts() {
   };
 
   const fetchMoreData = () => {
-    setInterval(() => {
+    setTimeout(() => {
       if (currentPage < totalPages) {
+        fetchPosts(currentPage + 1);
       }
     }, 800);
-    fetchPosts(currentPage + 1);
   };
 
   return (
-    <>
-      {loading && posts.length === 0 && <Loader />}
+    <div className="flex flex-col justify-center items-center w-full mb-5">
       <InfiniteScroll
         dataLength={posts.length}
         next={fetchMoreData}
         hasMore={currentPage < totalPages}
-        loader={<Loader />}
+        loader={
+          <div className="w-full flex justify-center">
+            <Loader />
+          </div>
+        }
+        endMessage={<p className="text-center">No more posts.</p>}
       >
-        <div className="flex flex-col justify-center align-center">
+        <div className="flex flex-col justify-center align-center w-full">
           {posts.map((post) => (
-            <div key={post.id} className="w-full  p-2">
+            <div key={post.id} className="w-full p-2">
               <Link to={`/vs/${post.author.username}/posts/${post.id}`}>
                 <Post {...post} isDashboard={isDashboard} />
               </Link>
@@ -70,6 +74,11 @@ export default function HomePosts() {
           ))}
         </div>
       </InfiniteScroll>
-    </>
+      {loading && (
+        <div className="w-full h-screen flex justify-center items-center">
+          <Loader />
+        </div>
+      )}
+    </div>
   );
 }

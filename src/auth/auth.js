@@ -95,3 +95,13 @@ export const isRequestedUser = () => {
   const requestedUser = localStorage.getItem("username");
   return username == requestedUser;
 };
+
+export const myUserData = async () => {
+  try {
+    const response = await axiosInstance.get(`/api/auth/users/me/`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    return error.response;
+  }
+};

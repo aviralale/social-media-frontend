@@ -13,11 +13,11 @@ html {
   scroll-behavior: smooth;
 }
 
-.yatra-one-regular {
+/* .yatra-one-regular {
   font-family: "Yatra One", system-ui;
   font-weight: 400;
   font-style: normal;
-}
+} */
 
 .text-outline-black {
   color: transparent;
@@ -28,4 +28,14 @@ html {
 .text-outline-white {
   color: transparent;
   -webkit-text-stroke: 1px white;
+}
+
+.masonry-grid {
+  display: flex;
+  margin-left: -16px; /* gutter size offset */
+  width: auto;
+}
+.masonry-grid_column {
+  padding-left: 16px; /* gutter size */
+  background-clip: padding-box;
 }

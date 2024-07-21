@@ -14,6 +14,9 @@ import { apiURL } from "@/utils/apiUrl";
 import { axiosInstance, getToken, isRequestedUser } from "@/auth/auth";
 import { followUser } from "@/utils/socialService";
 import { toast } from "sonner";
+import useDocumentTitle from "@/utils/useDocumentTitle";
+import Loader from "../components/Misc/Loader";
+import MutualConnections from "../components/User/MutualConnections";
 
 export default function Profile() {
   const { username } = useParams();
@@ -45,11 +48,9 @@ export default function Profile() {
 
   console.log("Rendering. isFollowing:", isFollowing);
 
-  useEffect(() => {
-    if (userData) {
-      document.title = `${userData.first_name} (@${userData.username}) - Profile`;
-    }
-  }, [userData]);
+  useDocumentTitle(
+    userData ? `${userData.first_name} (@${userData.username})` : "Profile"
+  );
 
   const handleFollowAction = async () => {
     if (loadingButton) return; // Prevent multiple clicks
@@ -81,7 +82,7 @@ export default function Profile() {
     } catch (error) {
       toast.error("Error following/unfollowing user:", error);
     } finally {
-      setLoadingButton(false); // Re-enable the button
+      setLoadingButton(false);
     }
   };
 
@@ -100,7 +101,6 @@ export default function Profile() {
       .writeText(window.location.href)
       .then(() => {
         toast.success("URL copied to clipboard");
-        // Optionally, you can show a toast or alert to indicate successful copying
       })
       .catch((err) => {
         toast.error("Error copying URL to clipboard:", err);
@@ -108,7 +108,7 @@ export default function Profile() {
   };
 
   if (!userData) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return (
@@ -133,8 +133,8 @@ export default function Profile() {
                 className="w-52 mr-4 aspect-square object-cover rounded-full"
               />
               <div className="flex flex-col">
-                <h1 className="text-9xl yatra-one-regular font-bold flex items-center gap-5">
-                  {userData.first_name} {userData.last_name}
+                <h1 className="text-9xl yatra-one-regular font-bold flex items-center gap-5 mb-5">
+                  {userData.first_name}
                   {userData.is_verified && <BadgeCheck size="96px" />}
                 </h1>
                 <div className="flex items-center gap-4">
@@ -166,7 +166,7 @@ export default function Profile() {
                       <Button
                         variant="outline"
                         onClick={handleFollowAction}
-                        disabled={loadingButton} // Disable the button while loading
+                        disabled={loadingButton}
                       >
                         {isFollowing ? (
                           <>
@@ -205,6 +205,9 @@ export default function Profile() {
                     ? "she/her"
                     : null}
                 </p>
+                {!isRequestedUser() && (
+                  <MutualConnections username={username} isText={true} />
+                )}
               </div>
             </div>
           </div>
