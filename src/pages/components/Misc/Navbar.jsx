@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dialog";
 import CreatePost from "../Posts/CreatePost";
 
-export default function Navbar() {
+export default function Navbar(props) {
   const username = getUsername();
 
   return (
@@ -102,7 +102,7 @@ export default function Navbar() {
                     <DialogTitle className="yatra-one-regular">
                       Create Post
                     </DialogTitle>
-                    <CreatePost />
+                    <CreatePost setProgress={props.setProgress} />
                   </DialogHeader>
                 </DialogContent>
               </Dialog>

@@ -31,7 +31,7 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   return (
     <ThemeProvider>
-      <Layout>
+      <Layout setProgress={setProgress}>
         <LoadingBar
           color="white"
           progress={progress}
