@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "./pages/Layout";
 import { ThemeProvider } from "./pages/components/ThemeProvider";
+import { PostProvider } from "@/context/PostContext";
 import Register from "./pages/Auth/Register";
 import "./App.css";
 import { Login } from "./pages/Auth/Login";
@@ -31,103 +32,105 @@ export default function App() {
   const [progress, setProgress] = useState(0);
   return (
     <ThemeProvider>
-      <Layout setProgress={setProgress}>
-        <LoadingBar
-          color="white"
-          progress={progress}
-          height="4px"
-          onLoaderFinished={() => setProgress(0)}
+      <PostProvider>
+        <Layout setProgress={setProgress}>
+          <LoadingBar
+            color="white"
+            progress={progress}
+            height="4px"
+            onLoaderFinished={() => setProgress(0)}
+          />
+          <Routes>
+            {/* Public routes */}
+            <Route element={<PublicRoute />}>
+              <Route
+                path="/register"
+                element={<Register setProgress={setProgress} />}
+              />
+              <Route
+                path="/login"
+                element={<Login setProgress={setProgress} />}
+              />
+            </Route>
+            <Route
+              path="/activate/:uid/:token"
+              element={<AccountActivated setProgress={setProgress} />}
+            />
+            <Route
+              path="/activate"
+              element={<AccountActivation setProgress={setProgress} />}
+            />
+            <Route
+              path="/forgot-password"
+              element={<ForgotPassword setProgress={setProgress} />}
+            />
+            <Route
+              path="/password/reset/confirm/:uid/:token"
+              element={<ResetPasswordConfirm />}
+            />
+            <Route
+              path="/forgot-username"
+              element={<ForgotUsername setProgress={setProgress} />}
+            />
+            <Route
+              path="/username/reset/confirm/:uid/:token"
+              element={<ResetUsernameConfirm setProgress={setProgress} />}
+            />
+
+            {/* Protected routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/" element={<Home setProgress={setProgress} />} />
+              <Route
+                path="/explore"
+                element={<ExplorePage setProgress={setProgress} />}
+              />
+              <Route
+                path="vs/:username"
+                element={<Profile setProgress={setProgress} />}
+              />
+              <Route
+                path="vs/:username/posts/:postId"
+                element={<IndividualPostPage setProgress={setProgress} />}
+              />
+              <Route
+                path="/vs/:username/posts/:postId/likers"
+                element={<PostLikers setProgress={setProgress} />}
+              />
+              <Route
+                path="/:username/posts/:postId/comment/:commentId/likers"
+                element={<CommentLikers setProgress={setProgress} />}
+              />
+              <Route
+                path="/:username/posts/:postId/comment/:commentId/reply/:replyId/likers"
+                element={<ReplyLikers setProgress={setProgress} />}
+              />
+              <Route
+                path="vs/:username/followers"
+                element={<Followers setProgress={setProgress} />}
+              />
+              <Route
+                path="vs/:username/following"
+                element={<Following setProgress={setProgress} />}
+              />
+              <Route
+                path="create"
+                element={<CreatePost setProgress={setProgress} />}
+              />
+            </Route>
+
+            {/* 404 route */}
+            <Route
+              path="/*"
+              element={<PageNotFound setProgress={setProgress} />}
+            />
+          </Routes>
+        </Layout>
+        <Toaster
+          style={{
+            minHeight: "4rem",
+          }}
         />
-        <Routes>
-          {/* Public routes */}
-          <Route element={<PublicRoute />}>
-            <Route
-              path="/register"
-              element={<Register setProgress={setProgress} />}
-            />
-            <Route
-              path="/login"
-              element={<Login setProgress={setProgress} />}
-            />
-          </Route>
-          <Route
-            path="/activate/:uid/:token"
-            element={<AccountActivated setProgress={setProgress} />}
-          />
-          <Route
-            path="/activate"
-            element={<AccountActivation setProgress={setProgress} />}
-          />
-          <Route
-            path="/forgot-password"
-            element={<ForgotPassword setProgress={setProgress} />}
-          />
-          <Route
-            path="/password/reset/confirm/:uid/:token"
-            element={<ResetPasswordConfirm />}
-          />
-          <Route
-            path="/forgot-username"
-            element={<ForgotUsername setProgress={setProgress} />}
-          />
-          <Route
-            path="/username/reset/confirm/:uid/:token"
-            element={<ResetUsernameConfirm setProgress={setProgress} />}
-          />
-
-          {/* Protected routes */}
-          <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Home setProgress={setProgress} />} />
-            <Route
-              path="/explore"
-              element={<ExplorePage setProgress={setProgress} />}
-            />
-            <Route
-              path="vs/:username"
-              element={<Profile setProgress={setProgress} />}
-            />
-            <Route
-              path="vs/:username/posts/:postId"
-              element={<IndividualPostPage setProgress={setProgress} />}
-            />
-            <Route
-              path="/vs/:username/posts/:postId/likers"
-              element={<PostLikers setProgress={setProgress} />}
-            />
-            <Route
-              path="posts/:postId/comment/:commentId/likers"
-              element={<CommentLikers setProgress={setProgress} />}
-            />
-            <Route
-              path="posts/:postId/comment/:commentId/reply/:replyId/likers"
-              element={<ReplyLikers setProgress={setProgress} />}
-            />
-            <Route
-              path="vs/:username/followers"
-              element={<Followers setProgress={setProgress} />}
-            />
-            <Route
-              path="vs/:username/following"
-              element={<Following setProgress={setProgress} />}
-            />
-            <Route
-              path="create"
-              element={<CreatePost setProgress={setProgress} />}
-            />
-          </Route>
-
-          {/* 404 route */}
-          <Route
-            path="/*"
-            element={<PageNotFound setProgress={setProgress} />}
-          />
-        </Routes>
-      </Layout>
-      <Toaster
-        style={{
-          minHeight: "4rem",
-        }}
-      />
+      </PostProvider>
     </ThemeProvider>
   );
 }

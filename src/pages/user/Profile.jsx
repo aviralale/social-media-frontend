@@ -3,12 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Posts from "../components/Posts/Posts";
 import { Button } from "@/components/ui/button";
 import EditProfile from "./EditProfile";
-import {
-  BadgeCheck,
-  Share2,
-  UserRoundMinus,
-  UserRoundPlus,
-} from "lucide-react";
+import { Share2, UserRoundMinus, UserRoundPlus } from "lucide-react";
 import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
 import { axiosInstance, getToken, isRequestedUser } from "@/auth/auth";
@@ -25,8 +20,7 @@ export default function Profile() {
   const [coverHeight, setCoverHeight] = useState("100vh");
   const [userData, setUserData] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [loadingFollowStatus, setLoadingFollowStatus] = useState(true);
-  const [loadingButton, setLoadingButton] = useState(false); // New loading state for the button
+  const [loadingButton, setLoadingButton] = useState(false);
   const token = getToken();
 
   useEffect(() => {

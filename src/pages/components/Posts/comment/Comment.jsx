@@ -43,7 +43,7 @@ export default function Comment({
               </button>
               <Link
                 className="text-xs hover:underline"
-                to={`/posts/${post}/comments/${author.username}/${id}/likers`}
+                to={`/${author.username}/posts/${post}/comments/${id}/likers`}
               >
                 {like_count}
               </Link>

@@ -5,12 +5,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { axiosInstance } from "@/auth/auth";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
+import { usePosts } from "@/context/PostContext";
 
 const MAX_MEDIA = 10;
 
 const CreatePost = (props) => {
   const [content, setContent] = useState("");
   const [media, setMedia] = useState([]);
+  const { fetchPosts } = usePosts();
 
   const handleContentChange = (e) => {
     setContent(e.target.value);
@@ -56,6 +58,7 @@ const CreatePost = (props) => {
       setMedia([]);
       props.setProgress(100);
       toast.success("Posted successfully.");
+      fetchPosts();
     } catch (error) {
       toast.error("There was an error creating the post!");
       console.error("There was an error creating the post!", error);
