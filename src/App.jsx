@@ -27,6 +27,7 @@ import CreatePost from "./pages/components/Posts/CreatePost";
 import ExplorePage from "./pages/Social/Explore";
 import LoadingBar from "react-top-loading-bar";
 import { useState } from "react";
+import Search from "./pages/Social/Search";
 
 export default function App() {
   const [progress, setProgress] = useState(0);
@@ -84,6 +85,10 @@ export default function App() {
                 <Route
                   path="/explore"
                   element={<ExplorePage setProgress={setProgress} />}
+                />
+                <Route
+                  path="/search"
+                  element={<Search setProgress={setProgress} />}
                 />
                 <Route
                   path="vs/:username"
