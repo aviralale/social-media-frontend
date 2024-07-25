@@ -29,7 +29,7 @@ export default function Navbar(props) {
   const username = getUsername();
 
   return (
-    <div className="fixed bottom-10 bordered rounded-full bg-white dark:bg-black border border-gray-800">
+    <div className="fixed -bottom-[50px] bordered rounded-full bg-white dark:bg-black border border-gray-800 hover:bottom-0 transition-all duration-200 ease-in">
       <ul className="flex p-3 gap-8 items-center relative">
         <li>
           <TooltipProvider>

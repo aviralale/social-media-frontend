@@ -28,6 +28,9 @@ import ExplorePage from "./pages/Social/Explore";
 import LoadingBar from "react-top-loading-bar";
 import { useState } from "react";
 import Search from "./pages/Social/Search";
+import ChatList from "./pages/components/Chat/ChatList";
+import ChatRoom from "./pages/components/Chat/ChatRoom";
+import StartChat from "./pages/components/Chat/StartChat";
 
 export default function App() {
   const [progress, setProgress] = useState(0);
@@ -122,6 +125,10 @@ export default function App() {
                   path="create"
                   element={<CreatePost setProgress={setProgress} />}
                 />
+
+                <Route path="/inbox" element={<ChatList />} />
+                <Route path="/inbox/:roomId" element={<ChatRoom />} />
+                <Route path="/start" element={<StartChat />} />
               </Route>
 
               {/* 404 route */}
