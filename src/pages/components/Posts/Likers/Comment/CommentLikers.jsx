@@ -3,15 +3,16 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CommentLiker from "./CommentLiker";
+import { axiosInstance } from "@/auth/auth";
 
 export default function CommentLikers() {
-  const { commentid } = useParams();
+  const { commentId } = useParams();
   const [likers, setLikers] = useState([]);
   useEffect(() => {
     const fetchCommentLikers = async () => {
       try {
-        const response = await axios.get(
-          `${apiURL}/api/comments/${commentid}/likers/`
+        const response = await axiosInstance.get(
+          `${apiURL}/api/comments/${commentId}/likers/`
         );
         setLikers(response.data);
       } catch (err) {

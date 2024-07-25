@@ -64,7 +64,7 @@ export default function PostMedia(props) {
   ) : (
     <Carousel
       plugins={[plugin.current]}
-      className="w-full max-w-3xl mt-4"
+      className="w-full max-w-4xl mt-4"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >

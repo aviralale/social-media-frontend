@@ -103,7 +103,7 @@ export default function IndividualPostPage() {
           />
         </div>
         <div className="max-w-1/3">
-          <Comments postId={postId} />
+          <Comments postId={postId} postAuthor={postData.author.username} />
         </div>
       </div>
     </div>

@@ -11,6 +11,11 @@ import { Replies } from "./reply/Replies";
 import { apiURL } from "@/utils/apiUrl";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useEffect, useMemo, useState } from "react";
+import { axiosInstance } from "@/auth/auth";
+import { toast } from "sonner";
+import { FavouriteIcon } from "@/Icons/Icons";
+import { getMediaUrl } from "@/utils/getMediaUrl";
 
 export default function Comment({
   post,
@@ -20,12 +25,96 @@ export default function Comment({
   like_count,
   reply_count,
   id,
+  fetchComments,
+  is_liked,
+  postAuthor,
 }) {
+  const [reply, setReply] = useState("");
+  const [commentData, setCommentData] = useState(null);
+  const [isLiked, setIsLiked] = useState(is_liked);
+  const [likeCount, setLikeCount] = useState(like_count);
+  const [loadingButton, setLoadingButton] = useState(false);
+
+  const fetchCommentData = async () => {
+    try {
+      const response = await axiosInstance.get(`/api/comments/${id}`);
+      setCommentData(response.data);
+      setIsLiked(response.data.is_liked);
+      setLikeCount(response.data.like_count);
+    } catch (err) {
+      console.error("Error fetching comment data", err);
+      toast.error("Failed to fetch comment data");
+    }
+  };
+
+  useEffect(() => {
+    if (!commentData) {
+      fetchCommentData();
+    }
+  }, [id]);
+
+  const handleLikeAction = async () => {
+    if (loadingButton) return;
+    setLoadingButton(true);
+
+    try {
+      const newIsLiked = !isLiked;
+      setIsLiked(newIsLiked);
+      setLikeCount((prevCount) => (newIsLiked ? prevCount + 1 : prevCount - 1));
+
+      const response = await axiosInstance.post(`/api/comments/${id}/like/`);
+
+      if (response.data.is_liked !== newIsLiked) {
+        fetchCommentData();
+      }
+
+      toast.success(newIsLiked ? "Comment Liked" : "Comment Unliked");
+    } catch (err) {
+      console.error("Error handling like action", err);
+      toast.error("Failed to update like status");
+      setIsLiked(!isLiked);
+      setLikeCount((prevCount) => (isLiked ? prevCount + 1 : prevCount - 1));
+    } finally {
+      setLoadingButton(false);
+    }
+  };
+
+  const handleReply = async () => {
+    if (!reply.trim()) {
+      toast.error("Reply cannot be empty");
+      return;
+    }
+
+    const data = {
+      content: reply,
+      comment: id,
+    };
+
+    try {
+      await axiosInstance.post(`${apiURL}/api/replies/`, data);
+      await fetchComments();
+      setReply("");
+      toast.success("Reply posted successfully.");
+    } catch (err) {
+      console.error("Error posting reply:", err);
+      toast.error("Failed to post reply");
+    }
+  };
+
+  const memoizedCommentData = useMemo(
+    () => ({
+      ...commentData,
+      is_liked: isLiked,
+      like_count: likeCount,
+    }),
+    [commentData, isLiked, likeCount]
+  );
+
   return (
     <>
       <div>
         <CommentHeader
-          profilePicture={`${apiURL}${author.profile_pic}`}
+          profilePicture={`${getMediaUrl(author.profile_pic)}`}
           username={author.username}
           isVerified={author.is_verified}
           firstName={author.first_name}
@@ -38,14 +127,18 @@ export default function Comment({
           <div className="flex flex-row items-center w-full justify-between">
             <p className="text-sm text-wrap">{content}</p>
             <div className="flex items-center">
-              <button className="mr-1">
-                <Heart size={12} />
+              <button className="mr-1" onClick={handleLikeAction}>
+                <FavouriteIcon
+                  width={12}
+                  height={12}
+                  fill={isLiked ? "red" : "none"}
+                />
               </button>
               <Link
                 className="text-xs hover:underline"
-                to={`/${author.username}/posts/${post}/comments/${id}/likers`}
+                to={`/post/${post}/comment/${id}/likers`}
               >
-                {like_count}
+                {likeCount}
               </Link>
             </div>
           </div>
@@ -58,8 +151,15 @@ export default function Comment({
                 <AccordionContent>
                   <Replies commentId={id} />
                   <div className="flex flex-col">
-                    <Textarea className="mt-2" placeholder="Add a reply..." />
-                    <Button variant="ghost">Reply</Button>
+                    <Textarea
+                      className="mt-2"
+                      placeholder="Add a reply..."
+                      value={reply}
+                      onChange={(e) => setReply(e.target.value)}
+                    />
+                    <Button variant="ghost" onClick={handleReply}>
+                      Reply
+                    </Button>
                   </div>
                 </AccordionContent>
               </AccordionItem>

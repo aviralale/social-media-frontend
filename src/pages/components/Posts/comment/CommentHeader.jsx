@@ -1,5 +1,5 @@
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,13 +18,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import formatDate from "@/utils/formatDate";
+import { PenTool03Icon } from "@/Icons/Icons";
 
 export default function CommentHeader(props) {
+  const { username } = useParams();
   const [report, setReport] = useState(null);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -40,22 +43,31 @@ export default function CommentHeader(props) {
     <>
       <HoverCard>
         <div className="flex justify-between">
-          <HoverCardTrigger asChild>
-            <Link
-              className="flex items-center gap-2 mb-2 hover:underline"
-              to={`/vs/${props.username}`}
-            >
-              <Avatar className="w-8 h-8">
-                <AvatarImage
-                  className="object-cover aspect-square"
-                  src={props.profilePicture}
-                />
-                <AvatarFallback>{props.username}</AvatarFallback>
-              </Avatar>
-              @{props.username}{" "}
-              {props.isVerified ? <BadgeCheck size={16} /> : ""}
-            </Link>
-          </HoverCardTrigger>
+          <div className="flex gap-2 items-center">
+            <HoverCardTrigger asChild>
+              <Link
+                className="flex items-center gap-2 mb-2 hover:underline"
+                to={`/vs/${props.username}`}
+              >
+                <Avatar className="w-8 h-8">
+                  <AvatarImage
+                    className="object-cover aspect-square"
+                    src={props.profilePicture}
+                  />
+                  <AvatarFallback>{props.username}</AvatarFallback>
+                </Avatar>
+                @{props.username}{" "}
+                {props.isVerified ? <BadgeCheck size={16} /> : ""}
+              </Link>
+            </HoverCardTrigger>
+            {username === props.username ? (
+              <Badge variant="outline" className="w-5 h-5 p-0">
+                <PenTool03Icon height={12} width={12} />
+              </Badge>
+            ) : (
+              <></>
+            )}
+          </div>
           <Drawer>
             <DrawerTrigger>
               <EllipsisVertical size={16} />
@@ -63,7 +75,7 @@ export default function CommentHeader(props) {
             <DrawerContent>
               <DrawerHeader>
                 <DrawerTitle>
-                  Report this post by {props.firstName} {props.lastName}?
+                  Report this setComments by {props.firstName} {props.lastName}?
                 </DrawerTitle>
                 <DrawerDescription>
                   This action cannot be undone.
@@ -112,6 +124,7 @@ export default function CommentHeader(props) {
               />
               <AvatarFallback>AH</AvatarFallback>
             </Avatar>
+
             <div className="space-y-1">
               <h4 className="text-sm font-semibold flex gap-1 items-center ">
                 @{props.username}

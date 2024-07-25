@@ -1,18 +1,16 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import replyData from "@/data/replyData";
 import { Fragment, useEffect, useState } from "react";
 import Reply from "./Reply";
-import axios from "axios";
 import { apiURL } from "@/utils/apiUrl";
-import { useParams } from "react-router-dom";
+import { axiosInstance } from "@/auth/auth";
 
 export function Replies(props) {
   const [replies, setReplies] = useState([]);
   useEffect(() => {
     const fetchReplies = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${apiURL}/api/comments/${props.commentId}/replies/`
         );
         setReplies(response.data);
@@ -21,7 +19,7 @@ export function Replies(props) {
       }
     };
     fetchReplies();
-  }, []);
+  }, [props.id]);
   return (
     <ScrollArea className=" max-h-[48rem] min-w-96 rounded-md border">
       <div className="p-4">
