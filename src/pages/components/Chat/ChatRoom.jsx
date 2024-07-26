@@ -15,8 +15,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 
-function ChatRoom() {
-  const { roomId } = useParams();
+function ChatRoom({ chatId }) {
+  // const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -28,7 +28,7 @@ function ChatRoom() {
 
   const fetchMessages = async () => {
     try {
-      const response = await axiosInstance.get(`/api/room/${roomId}/`);
+      const response = await axiosInstance.get(`/api/room/${chatId}/`);
       setMessages(response.data.messages);
       setOtherUser(response.data.other_user);
       setOtherUserTyping(response.data.other_user_typing);
@@ -39,12 +39,12 @@ function ChatRoom() {
 
   useEffect(() => {
     fetchMessages();
-  }, [roomId]);
+  }, [chatId]);
 
   const connectWebSocket = () => {
     const token = getToken();
     ws.current = new WebSocket(
-      `ws://127.0.0.1:8000/ws/chat/${roomId}/?token=${token}`
+      `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`
     );
 
     ws.current.onopen = () => {
@@ -86,7 +86,7 @@ function ChatRoom() {
         ws.current.close();
       }
     };
-  }, [roomId]);
+  }, [chatId]);
 
   const sendMessage = async () => {
     if (newMessage.trim() === "") return;
@@ -98,7 +98,7 @@ function ChatRoom() {
     };
 
     try {
-      await axiosInstance.post(`/api/room/${roomId}/`, { content: newMessage });
+      await axiosInstance.post(`/api/room/${chatId}/`, { content: newMessage });
       ws.current.send(JSON.stringify(messageData));
       setNewMessage("");
       setIsTyping(false);

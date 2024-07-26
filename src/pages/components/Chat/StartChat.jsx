@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { axiosInstance } from "@/auth/auth";
 
-function StartChat() {
+function StartChat({ onNewChat }) {
   const [username, setUsername] = useState("");
-  const navigate = useNavigate();
 
   const handleStartChat = async () => {
     try {
       const response = await axiosInstance.get(`/api/start/${username}/`);
-      navigate(`/chat/${response.data.room_id}`);
+      onNewChat(response.data);
+      setUsername("");
     } catch (error) {
       console.error("Error starting chat:", error);
     }
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Start a New Chat</h1>
+    <div className="p-4">
+      <h2 className="text-lg font-semibold mb-2">Start a New Chat</h2>
       <Input
         type="text"
         value={username}

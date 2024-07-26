@@ -1,41 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { axiosInstance } from "@/auth/auth";
+import React from "react";
+import { Button } from "@/components/ui/button";
 
-function ChatList() {
-  const [chats, setChats] = useState([]);
-
-  useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const response = await axiosInstance.get("/api/chats/");
-        setChats(response.data);
-      } catch (error) {
-        console.error("Error fetching chats:", error);
-      }
-    };
-    fetchChats();
-  }, []);
+function ChatList({ chats, setSelectedChatId }) {
+  console.log("Chats in ChatList:", chats);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Your Chats</h1>
-      {chats.map((chat) => (
-        <Link to={`/inbox/${chat.id}`} key={chat.id}>
-          <Card className="mb-4">
-            <CardHeader>
-              <CardTitle>{chat.other_user.username}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>{chat.last_message?.content || "No messages yet"}</p>
-              {chat.other_user_typing && (
-                <p className="text-sm text-gray-500">Typing...</p>
-              )}
-            </CardContent>
-          </Card>
-        </Link>
-      ))}
+    <div className="p-4">
+      <h2 className="text-lg font-semibold mb-2">Your Chats</h2>
+      {Array.isArray(chats) ? (
+        chats.map((chat) => (
+          <Button
+            key={chat.id}
+            className="w-full text-left mb-2"
+            onClick={() => setSelectedChatId(chat.id)}
+          >
+            {typeof chat.username === "string" ? chat.username : "Unknown User"}
+          </Button>
+        ))
+      ) : (
+        <p>No chats available</p>
+      )}
     </div>
   );
 }

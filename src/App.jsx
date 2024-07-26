@@ -31,6 +31,7 @@ import Search from "./pages/Social/Search";
 import ChatList from "./pages/components/Chat/ChatList";
 import ChatRoom from "./pages/components/Chat/ChatRoom";
 import StartChat from "./pages/components/Chat/StartChat";
+import ChatPage from "./pages/Chat/ChatPage";
 
 export default function App() {
   const [progress, setProgress] = useState(0);
@@ -129,6 +130,7 @@ export default function App() {
                 <Route path="/inbox" element={<ChatList />} />
                 <Route path="/inbox/:roomId" element={<ChatRoom />} />
                 <Route path="/start" element={<StartChat />} />
+                <Route path="/chat" element={<ChatPage />} />
               </Route>
 
               {/* 404 route */}
