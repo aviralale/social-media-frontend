@@ -32,6 +32,7 @@ import ChatList from "./pages/components/Chat/ChatList";
 import ChatRoom from "./pages/components/Chat/ChatRoom";
 import StartChat from "./pages/components/Chat/StartChat";
 import ChatPage from "./pages/Chat/ChatPage";
+import Notifications from "./pages/Social/Notifications";
 
 export default function App() {
   const [progress, setProgress] = useState(0);
@@ -127,10 +128,10 @@ export default function App() {
                   element={<CreatePost setProgress={setProgress} />}
                 />
 
-                <Route path="/inbox" element={<ChatList />} />
-                <Route path="/inbox/:roomId" element={<ChatRoom />} />
-                <Route path="/start" element={<StartChat />} />
-                <Route path="/chat" element={<ChatPage />} />
+                <Route path="/notifications" element={<Notifications />} />
+
+                <Route path="/inbox" element={<ChatPage />} />
+                <Route path="/inbox/:chatId" element={<ChatPage />} />
               </Route>
 
               {/* 404 route */}

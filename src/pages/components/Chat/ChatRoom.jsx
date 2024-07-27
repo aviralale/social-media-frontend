@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { getMediaUrl } from "@/utils/getMediaUrl";
 import {
   Card,
   CardHeader,
@@ -8,23 +8,22 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { axiosInstance, getToken, getUsername } from "@/auth/auth";
 import formatDate from "@/utils/formatDate";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function ChatRoom({ chatId }) {
-  // const { chatId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [otherUser, setOtherUser] = useState(null);
   const [otherUserTyping, setOtherUserTyping] = useState(false);
-  const ws = useRef(null);
   const scrollAreaRef = useRef(null);
   const username = getUsername();
+  const ws = useRef(null);
 
   const fetchMessages = async () => {
     try {
@@ -43,12 +42,12 @@ function ChatRoom({ chatId }) {
 
   const connectWebSocket = () => {
     const token = getToken();
-    ws.current = new WebSocket(
-      `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`
-    );
+    const socketUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`;
+
+    ws.current = new WebSocket(socketUrl);
 
     ws.current.onopen = () => {
-      console.log("WebSocket connection established.");
+      console.log("WebSocket connection established");
     };
 
     ws.current.onmessage = (event) => {
@@ -57,7 +56,7 @@ function ChatRoom({ chatId }) {
         setMessages((prevMessages) => [
           ...prevMessages,
           {
-            id: prevMessages.length,
+            id: prevMessages.length + 1,
             sender: data.sender,
             content: data.message,
             timestamp: new Date().toISOString(),
@@ -69,12 +68,14 @@ function ChatRoom({ chatId }) {
       }
     };
 
-    ws.current.onclose = () => {
-      console.log("WebSocket connection closed.");
-    };
-
     ws.current.onerror = (error) => {
       console.error("WebSocket error:", error);
+    };
+
+    ws.current.onclose = () => {
+      console.log("WebSocket connection closed");
+      // Attempt to reconnect after a delay
+      setTimeout(connectWebSocket, 5000);
     };
   };
 
@@ -99,7 +100,10 @@ function ChatRoom({ chatId }) {
 
     try {
       await axiosInstance.post(`/api/room/${chatId}/`, { content: newMessage });
-      ws.current.send(JSON.stringify(messageData));
+      if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+        ws.current.send(JSON.stringify(messageData));
+      }
+      fetchMessages();
       setNewMessage("");
       setIsTyping(false);
     } catch (error) {
@@ -110,7 +114,9 @@ function ChatRoom({ chatId }) {
   const handleTyping = (e) => {
     if (!isTyping) {
       setIsTyping(true);
-      ws.current.send(JSON.stringify({ is_typing: true }));
+      if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+        ws.current.send(JSON.stringify({ is_typing: true }));
+      }
     }
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -120,49 +126,64 @@ function ChatRoom({ chatId }) {
 
   useEffect(() => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
-        behavior: "smooth",
-      });
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages]);
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
+
   return (
     <Card className="h-[calc(100vh-2rem)] min-w-[70vw]">
-      <CardHeader>
-        <CardTitle>{otherUser}</CardTitle>
+      <CardHeader className="p-2 border-b-2">
+        <CardTitle className="flex justify-center items-center ">
+          <Avatar className="mr-2">
+            {otherUser && otherUser.profile_pic ? (
+              <AvatarImage
+                src={getMediaUrl(otherUser.profile_pic)}
+                alt={otherUser.username}
+                className="aspect-square object-cover"
+              />
+            ) : (
+              <AvatarFallback>
+                {otherUser && otherUser.username
+                  ? otherUser.username.substring(0, 2).toUpperCase()
+                  : "UN"}
+              </AvatarFallback>
+            )}
+          </Avatar>{" "}
+          {otherUser ? otherUser.username : "Loading..."}
+        </CardTitle>
       </CardHeader>
       <CardContent className="overflow-hidden flex-grow">
-        <ScrollArea ref={scrollAreaRef} className="h-[48rem] overflow-y-auto">
-          {messages.map((message) => (
-            <div key={message.id} className="mb-2 flex items-center">
-              <div
-                className={`relative group w-full text-left rounded px-2 py-1 border-l-4 ${
-                  message.sender === username
-                    ? "border-red-700"
-                    : "border-blue-300"
-                }`}
-              >
-                <Button
-                  variant="none"
-                  className="w-full text-left flex flex-col items-start justify-center"
+        <ScrollArea ref={scrollAreaRef} className="h-[80vh] overflow-y-auto">
+          {messages.length !== 0 ? (
+            messages.map((message) => (
+              <div key={message.id} className="mb-2 flex items-center">
+                <div
+                  className={`relative group w-full text-left rounded px-2 py-1 border-l-4 ${
+                    message.sender === username
+                      ? "border-red-700"
+                      : "border-blue-300"
+                  }`}
                 >
-                  <p className="text-xs text-gray-500">{message.sender}</p>
-                  {message.content}
-                </Button>
-                {message.timestamp && (
-                  <Badge className="absolute right-0 top-[50%] text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10">
-                    {formatDate(message.timestamp)}
-                  </Badge>
-                )}
+                  <Button
+                    variant="none"
+                    className="w-full text-left flex flex-col items-start justify-center"
+                  >
+                    <p className="text-xs text-gray-500">{message.sender}</p>
+                    {message.content}
+                  </Button>
+                  {message.timestamp && (
+                    <Badge className="absolute right-0 top-[50%] text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 z-10">
+                      {formatDate(message.timestamp)}
+                    </Badge>
+                  )}
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-[80vh]">
+              <h1>No messages. Start chat with {otherUser?.username}</h1>
             </div>
-          ))}
+          )}
           {otherUserTyping && (
             <div
               className={`relative group w-full text-left rounded px-2 py-1 border-l-4 border-blue-300`}
@@ -171,7 +192,9 @@ function ChatRoom({ chatId }) {
                 variant="none"
                 className="w-full text-left flex flex-col items-start justify-center"
               >
-                <p className="text-xs text-gray-500">{otherUser}</p>
+                <p className="text-xs text-gray-500">
+                  {otherUser ? otherUser.username : "Other user"}
+                </p>
                 is typing...
               </Button>
             </div>

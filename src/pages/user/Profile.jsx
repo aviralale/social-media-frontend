@@ -32,10 +32,8 @@ export default function Profile() {
         setUserData(response.data);
         setIsFollowing(response.data.is_following);
         console.log("isFollowing set to:", response.data.is_following);
-        setLoadingFollowStatus(false);
       } catch (err) {
         console.error("Error fetching user data:", err);
-        setLoadingFollowStatus(false);
       }
     };
     fetchUserData();

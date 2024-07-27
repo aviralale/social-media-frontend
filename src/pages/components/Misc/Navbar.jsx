@@ -115,21 +115,14 @@ export default function Navbar(props) {
         <li>
           <TooltipProvider>
             <Tooltip>
-              <Dialog>
-                <TooltipTrigger asChild>
-                  <DialogTrigger className="flex transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full items-center gap-2 ease p-2 rounded-xl ">
-                    <Notification02Icon />
-                  </DialogTrigger>
-                </TooltipTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle className="yatra-one-regular">
-                      Create Post
-                    </DialogTitle>
-                    <CreatePost />
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+              <TooltipTrigger asChild>
+                <NavLink
+                  to="/notifications"
+                  className="transition-all ease duration-200 hover:scale-150 hover:bg-orange-100 dark:hover:bg-gray-900 overflow-hidden hover:rounded-full block"
+                >
+                  <Notification02Icon />
+                </NavLink>
+              </TooltipTrigger>
               <TooltipContent className="mb-2">
                 <p>Notifications</p>
               </TooltipContent>

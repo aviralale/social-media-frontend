@@ -73,7 +73,10 @@ export default function Sidebar(props) {
           </DialogContent>
         </Dialog>
         <li>
-          <Link className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900">
+          <Link
+            to="/notifications"
+            className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900"
+          >
             <Notification02Icon /> Notifications
           </Link>
         </li>
