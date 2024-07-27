@@ -14,6 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { websocketURL } from "@/utils/apiUrl";
 
 function ChatRoom({ chatId }) {
   const [messages, setMessages] = useState([]);
@@ -42,7 +43,7 @@ function ChatRoom({ chatId }) {
 
   const connectWebSocket = () => {
     const token = getToken();
-    const socketUrl = `ws://127.0.0.1:8000/ws/chat/${chatId}/?token=${token}`;
+    const socketUrl = `${websocketURL}chat/${chatId}/?token=${token}`;
 
     ws.current = new WebSocket(socketUrl);
 

@@ -5,8 +5,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { axiosInstance, getToken, getUsername } from "@/auth/auth";
 import { getMediaUrl } from "@/utils/getMediaUrl";
 import { Link } from "react-router-dom";
-import { Badge } from "@/components/ui/badge"; // Import Button
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { websocketURL } from "@/utils/apiUrl";
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -26,7 +27,7 @@ const Notifications = () => {
 
     // WebSocket setup
     const socket = new WebSocket(
-      `ws://127.0.0.1:8000/ws/notifications/?token=${token}`
+      `${websocketURL}notifications/?token=${token}`
     );
 
     socket.onopen = () => {
