@@ -18,6 +18,7 @@ import {
   Search01Icon,
   UserSharingIcon,
 } from "@/Icons/Icons";
+import Notifications from "@/pages/Social/Notifications";
 
 export default function Sidebar(props) {
   const username = getUsername();
@@ -72,14 +73,19 @@ export default function Sidebar(props) {
             </DialogHeader>
           </DialogContent>
         </Dialog>
-        <li>
-          <Link
-            to="/notifications"
-            className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900"
-          >
+        <Dialog>
+          <DialogTrigger className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900 ">
             <Notification02Icon /> Notifications
-          </Link>
-        </li>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="yatra-one-regular">
+                Notifications
+              </DialogTitle>
+              <Notifications />
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </ul>
     </div>
   );

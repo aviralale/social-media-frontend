@@ -9,7 +9,7 @@ import { axiosInstance } from "@/auth/auth";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function IndividualPostPage() {
+export default function IndividualPostPage(props) {
   const { username, postId } = useParams();
   const [postData, setPostData] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
@@ -92,6 +92,8 @@ export default function IndividualPostPage() {
             caption={postData.content}
             postPosted={postData.created_at}
             commentCount={postData.comment_count}
+            setProgress={props.setProgress}
+            username={postData.author.username}
           />
           <PostFooter
             likeCount={likeCount}

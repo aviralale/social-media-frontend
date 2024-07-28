@@ -101,7 +101,6 @@ const Notifications = () => {
   return (
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader className="flex justify-between items-center">
-        <CardTitle>Notifications</CardTitle>
         <Button onClick={handleMarkAllAsRead}>Mark All as Read</Button>
       </CardHeader>
       <CardContent>

@@ -28,9 +28,6 @@ import ExplorePage from "./pages/Social/Explore";
 import LoadingBar from "react-top-loading-bar";
 import { useState } from "react";
 import Search from "./pages/Social/Search";
-import ChatList from "./pages/components/Chat/ChatList";
-import ChatRoom from "./pages/components/Chat/ChatRoom";
-import StartChat from "./pages/components/Chat/StartChat";
 import ChatPage from "./pages/Chat/ChatPage";
 import Notifications from "./pages/Social/Notifications";
 
