@@ -72,15 +72,15 @@ export default function App() {
                 element={<ForgotPassword setProgress={setProgress} />}
               />
               <Route
-                path="/password/reset/confirm/:uid/:token"
-                element={<ResetPasswordConfirm />}
+                path="/password-reset/confirm/:uid/:token"
+                element={<ResetPasswordConfirm setProgress={setProgress} />}
               />
               <Route
                 path="/forgot-username"
                 element={<ForgotUsername setProgress={setProgress} />}
               />
               <Route
-                path="/username/reset/confirm/:uid/:token"
+                path="/username-reset/confirm/:uid/:token"
                 element={<ResetUsernameConfirm setProgress={setProgress} />}
               />
 
