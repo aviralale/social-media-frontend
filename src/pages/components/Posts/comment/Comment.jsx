@@ -1,4 +1,3 @@
-import { Heart } from "lucide-react";
 import CommentHeader from "./CommentHeader";
 import { Link } from "react-router-dom";
 import {
@@ -12,10 +11,18 @@ import { apiURL } from "@/utils/apiUrl";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useEffect, useMemo, useState } from "react";
-import { axiosInstance } from "@/auth/auth";
+import { axiosInstance, getUsername } from "@/auth/auth";
 import { toast } from "sonner";
-import { FavouriteIcon } from "@/Icons/Icons";
+import { Delete02Icon, FavouriteIcon, PencilEdit02Icon } from "@/Icons/Icons";
 import { getMediaUrl } from "@/utils/getMediaUrl";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import EditComment from "./EditComment";
 
 export default function Comment({
   post,
@@ -34,6 +41,7 @@ export default function Comment({
   const [isLiked, setIsLiked] = useState(is_liked);
   const [likeCount, setLikeCount] = useState(like_count);
   const [loadingButton, setLoadingButton] = useState(false);
+  const username = getUsername();
 
   const fetchCommentData = async () => {
     try {
@@ -101,6 +109,17 @@ export default function Comment({
     }
   };
 
+  const handleDeleteComment = async () => {
+    try {
+      await axiosInstance.delete(`/api/comments/${id}/`);
+      await fetchComments();
+      toast.success("Comment deleted successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete comment");
+    }
+  };
+
   const memoizedCommentData = useMemo(
     () => ({
       ...commentData,
@@ -126,6 +145,52 @@ export default function Comment({
         <div className="flex flex-col ml-6 justify-between items-center w-[26rem]">
           <div className="flex flex-row items-center w-full justify-between">
             <p className="text-sm text-wrap">{content}</p>
+            <div className="flex">
+              <Dialog>
+                {username === author.username ? (
+                  <DialogTrigger className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900 ">
+                    <PencilEdit02Icon width={14} height={14} />
+                  </DialogTrigger>
+                ) : (
+                  <></>
+                )}
+
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="yatra-one-regular">
+                      Edit Comment
+                    </DialogTitle>
+                    <EditComment
+                      commentId={id}
+                      fetchCommentData={fetchComments}
+                      caption={content}
+                    />
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+              <Dialog>
+                {username === author.username ? (
+                  <DialogTrigger className="flex items-center gap-2 transition-all ease duration-200 p-2 rounded-xl hover:bg-zinc-900 ">
+                    <Delete02Icon width={14} height={14} />
+                  </DialogTrigger>
+                ) : (
+                  <></>
+                )}
+
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="yatra-one-regular">
+                      Delete Comment?
+                    </DialogTitle>
+                    <p>Do you want to delete your comment "{content}"?</p>
+                  </DialogHeader>
+                  <Button variant="destructive" onClick={handleDeleteComment}>
+                    Delete
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            </div>
+
             <div className="flex items-center">
               <button className="mr-1" onClick={handleLikeAction}>
                 <FavouriteIcon

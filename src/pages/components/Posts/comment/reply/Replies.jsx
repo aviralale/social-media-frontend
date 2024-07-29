@@ -7,17 +7,17 @@ import { axiosInstance } from "@/auth/auth";
 
 export function Replies(props) {
   const [replies, setReplies] = useState([]);
+  const fetchReplies = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${apiURL}/api/comments/${props.commentId}/replies/`
+      );
+      setReplies(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchReplies = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `${apiURL}/api/comments/${props.commentId}/replies/`
-        );
-        setReplies(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchReplies();
   }, [props.id]);
   return (
@@ -25,7 +25,11 @@ export function Replies(props) {
       <div className="p-4">
         {replies.map((reply) => (
           <Fragment key={reply.id}>
-            <Reply {...reply} />
+            <Reply
+              {...reply}
+              commentId={props.commentId}
+              fetchReplies={fetchReplies}
+            />
             <Separator className="my-2" />
           </Fragment>
         ))}
