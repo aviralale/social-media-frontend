@@ -12,7 +12,7 @@ export default function CommentLikers() {
     const fetchCommentLikers = async () => {
       try {
         const response = await axiosInstance.get(
-          `${apiURL}/api/comments/${commentId}/likers/`
+          `comments/${commentId}/likers/`
         );
         setLikers(response.data);
       } catch (err) {

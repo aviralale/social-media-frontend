@@ -14,7 +14,7 @@ export default function ChatPage() {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await axiosInstance.get("/api/chats/");
+        const response = await axiosInstance.get("chats/");
         setChats(response.data);
       } catch (error) {
         console.error("Error fetching chats:", error);

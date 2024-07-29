@@ -23,7 +23,7 @@ export default function Followers() {
     setError(null);
     try {
       const response = await axios.get(
-        `${apiURL}/api/users/${username}/followers/?page=${page}`
+        `${apiURL}users/${username}/followers/?page=${page}`
       );
       if (page === 1) {
         setFollowers(response.data.results);

@@ -11,7 +11,7 @@ export default function SidebarRight({ first_name, profile_pic }) {
 
   const fetchSuggestedUsers = async () => {
     try {
-      const response = await axiosInstance.get("/api/suggested-users/");
+      const response = await axiosInstance.get("suggested-users/");
       setSuggestedUsers(response.data);
     } catch (error) {
       console.log(error);

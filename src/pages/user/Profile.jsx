@@ -27,7 +27,7 @@ export default function Profile() {
     const fetchUserData = async () => {
       console.log("Fetching user data...");
       try {
-        const response = await axiosInstance.get(`/api/user/${username}/`);
+        const response = await axiosInstance.get(`user/${username}/`);
         console.log("API response:", response.data);
         setUserData(response.data);
         setIsFollowing(response.data.is_following);
@@ -52,7 +52,7 @@ export default function Profile() {
     try {
       if (isFollowing) {
         await axios.delete(
-          `${apiURL}/api/followers/${userData.username}/unfollow/`,
+          `${apiURL}followers/${userData.username}/unfollow/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ export default function Profile() {
         toast.success(`Following ${userData.username}`);
       }
 
-      const response = await axios.get(`${apiURL}/api/user/${username}/`, {
+      const response = await axios.get(`${apiURL}user/${username}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -112,11 +112,11 @@ export default function Profile() {
             className="intro-section__content flex items-center relative w-svw"
             style={{ height: coverHeight }}
           >
-            <div className="cover-pic absolute inset-0 z-0">
+            <div className="cover-pic absolute inset-0 z-0 overflow-hidden">
               <img
                 src={userData.cover_pic}
                 alt={`${userData.username}'s cover picture`}
-                className="h-full w-svw object-cover object-center"
+                className="h-[150%] w-[150%] object-cover object-center"
               />
             </div>
             <div className="relative h-full flex p-6 items-end w-svw bg-gradient-to-t from-white dark:from-black overflow-hidden to-transparent">

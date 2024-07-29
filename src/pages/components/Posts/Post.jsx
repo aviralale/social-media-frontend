@@ -25,7 +25,7 @@ export default function Post({
 
   const fetchPostData = async () => {
     try {
-      const response = await axiosInstance.get(`/api/posts/${id}`);
+      const response = await axiosInstance.get(`posts/${id}`);
       setPostData(response.data);
       setIsLiked(response.data.is_liked);
       setLikeCount(response.data.like_count);
@@ -50,9 +50,7 @@ export default function Post({
       setIsLiked(newIsLiked);
       setLikeCount((prevCount) => (newIsLiked ? prevCount + 1 : prevCount - 1));
 
-      const response = await axiosInstance.post(
-        `${apiURL}/api/posts/${id}/like/`
-      );
+      const response = await axiosInstance.post(`posts/${id}/like/`);
 
       if (response.data.is_liked !== newIsLiked) {
         fetchPostData();

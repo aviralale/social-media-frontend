@@ -16,7 +16,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axiosInstance.get("/api/notifications/");
+        const response = await axiosInstance.get("notifications/");
         setNotifications(response.data);
       } catch (error) {
         console.error("Error fetching notifications:", error);
@@ -60,7 +60,7 @@ const Notifications = () => {
   const handleNotificationClick = async (notification) => {
     if (!notification.is_read) {
       try {
-        await axiosInstance.patch(`/api/notifications/${notification.id}/`, {
+        await axiosInstance.patch(`notifications/${notification.id}/`, {
           is_read: true,
         });
         setNotifications((prevNotifications) =>
@@ -76,7 +76,7 @@ const Notifications = () => {
 
   const handleMarkAllAsRead = async () => {
     try {
-      await axiosInstance.post(`/api/notifications/mark-all-as-read/`);
+      await axiosInstance.post(`notifications/mark-all-as-read/`);
       setNotifications((prevNotifications) =>
         prevNotifications.map((notif) => ({ ...notif, is_read: true }))
       );

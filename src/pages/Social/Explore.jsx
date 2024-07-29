@@ -22,7 +22,7 @@ const ExplorePage = () => {
   const fetchPosts = async (page) => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`/api/explore/?page=${page}`);
+      const response = await axiosInstance.get(`explore/?page=${page}`);
       if (page === 1) {
         setPosts(response.data.results);
       } else {

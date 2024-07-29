@@ -23,7 +23,7 @@ export default function Posts(props) {
     setLoading(true);
     try {
       const response = await axiosInstance.get(
-        `${apiURL}/api/users/${username}/posts/?page=${page}`
+        `users/${username}/posts/?page=${page}`
       );
       if (page === 1) {
         setPosts(response.data.results);

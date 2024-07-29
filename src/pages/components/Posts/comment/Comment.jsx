@@ -45,7 +45,7 @@ export default function Comment({
 
   const fetchCommentData = async () => {
     try {
-      const response = await axiosInstance.get(`/api/comments/${id}`);
+      const response = await axiosInstance.get(`comments/${id}`);
       setCommentData(response.data);
       setIsLiked(response.data.is_liked);
       setLikeCount(response.data.like_count);
@@ -70,7 +70,7 @@ export default function Comment({
       setIsLiked(newIsLiked);
       setLikeCount((prevCount) => (newIsLiked ? prevCount + 1 : prevCount - 1));
 
-      const response = await axiosInstance.post(`/api/comments/${id}/like/`);
+      const response = await axiosInstance.post(`comments/${id}/like/`);
 
       if (response.data.is_liked !== newIsLiked) {
         fetchCommentData();
@@ -99,7 +99,7 @@ export default function Comment({
     };
 
     try {
-      await axiosInstance.post(`${apiURL}/api/replies/`, data);
+      await axiosInstance.post(`replies/`, data);
       await fetchComments();
       setReply("");
       toast.success("Reply posted successfully.");
@@ -111,7 +111,7 @@ export default function Comment({
 
   const handleDeleteComment = async () => {
     try {
-      await axiosInstance.delete(`/api/comments/${id}/`);
+      await axiosInstance.delete(`comments/${id}/`);
       await fetchComments();
       toast.success("Comment deleted successfully");
     } catch (error) {

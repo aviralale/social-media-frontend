@@ -49,7 +49,7 @@ const CreatePost = (props) => {
     });
 
     try {
-      await axiosInstance.post("/api/posts/", formData, {
+      await axiosInstance.post("posts/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -28,7 +28,7 @@ function ChatRoom({ chatId }) {
 
   const fetchMessages = async () => {
     try {
-      const response = await axiosInstance.get(`/api/room/${chatId}/`);
+      const response = await axiosInstance.get(`room/${chatId}/`);
       setMessages(response.data.messages);
       setOtherUser(response.data.other_user);
       setOtherUserTyping(response.data.other_user_typing);

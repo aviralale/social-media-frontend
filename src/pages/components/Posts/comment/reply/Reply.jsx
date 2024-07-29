@@ -33,7 +33,7 @@ export default function Reply({
   const username = getUsername();
   const fetchReplyData = async () => {
     try {
-      const response = await axiosInstance.get(`/api/replies/${id}`);
+      const response = await axiosInstance.get(`replies/${id}`);
       setReplyData(response.data);
       setIsLiked(response.data.is_liked);
       setLikeCount(response.data.like_count);
@@ -58,7 +58,7 @@ export default function Reply({
       setIsLiked(newIsLiked);
       setLikeCount((prevCount) => (newIsLiked ? prevCount + 1 : prevCount - 1));
 
-      const response = await axiosInstance.post(`/api/replies/${id}/like/`);
+      const response = await axiosInstance.post(`replies/${id}/like/`);
 
       if (response.data.is_liked !== newIsLiked) {
         fetchReplyData();
@@ -76,7 +76,7 @@ export default function Reply({
 
   const handleDeleteReply = async () => {
     try {
-      await axiosInstance.delete(`/api/replies/${id}/`);
+      await axiosInstance.delete(`replies/${id}/`);
       await props.fetchReplies();
       toast.success("Comment deleted successfully");
     } catch (error) {

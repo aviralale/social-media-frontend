@@ -23,7 +23,7 @@ export default function Following() {
     setError(null);
     try {
       const response = await axiosInstance.get(
-        `${apiURL}/api/users/${username}/following/?page=${page}`
+        `users/${username}/following/?page=${page}`
       );
       if (page === 1) {
         setFollowing(response.data.results);

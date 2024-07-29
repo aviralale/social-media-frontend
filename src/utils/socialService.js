@@ -6,7 +6,7 @@ export const followUser = async (username) => {
     const data = {
       followed: username,
     };
-    await axios.post(`${apiURL}/api/followers/follow/`, data, {
+    await axios.post(`${apiURL}followers/follow/`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",

@@ -16,7 +16,7 @@ const useMutualConnections = (username) => {
 
       try {
         const response = await axios.get(
-          `${apiURL}/api/users/${username}/mutual-connections/`,
+          `${apiURL}users/${username}/mutual-connections/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

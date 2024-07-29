@@ -10,9 +10,7 @@ export default function ReplyLikers() {
   useEffect(() => {
     const fetchReplyLikers = async () => {
       try {
-        const response = await axios.get(
-          `${apiURL}/api/replies/${replyid}/likers/`
-        );
+        const response = await axios.get(`${apiURL}replies/${replyid}/likers/`);
         setLikers(response.data);
       } catch (err) {
         console.log(err);

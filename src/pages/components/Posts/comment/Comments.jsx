@@ -17,9 +17,7 @@ export function Comments(props) {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(
-        `${apiURL}/api/posts/${postId}/comments/`
-      );
+      const response = await axios.get(`${apiURL}posts/${postId}/comments/`);
       setComments(response.data);
     } catch (err) {
       console.error("Error fetching comments:", err);
@@ -43,7 +41,7 @@ export function Comments(props) {
     };
 
     try {
-      await axiosInstance.post(`${apiURL}/api/comments/`, data);
+      await axiosInstance.post(`comments/`, data);
       await fetchComments();
       setComment("");
       toast.success("Comment posted successfully.");

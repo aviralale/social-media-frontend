@@ -19,7 +19,7 @@ const EditReply = (props) => {
     e.preventDefault();
 
     try {
-      await axiosInstance.patch(`/api/replies/${replyId}/`, {
+      await axiosInstance.patch(`replies/${replyId}/`, {
         comment: commentId,
         content: content,
       });

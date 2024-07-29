@@ -24,7 +24,7 @@ export default function DeleteAccount() {
       const data = {
         current_password: password,
       };
-      await axiosInstance.delete("/api/auth/users/me/", {
+      await axiosInstance.delete("auth/users/me/", {
         data,
       });
       localStorage.removeItem("token");

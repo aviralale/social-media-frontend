@@ -16,9 +16,7 @@ export const PostProvider = ({ children }) => {
     setLoading(true);
 
     try {
-      const response = await axiosInstance.get(
-        `${apiURL}/api/home/posts/?page=${page}`
-      );
+      const response = await axiosInstance.get(`home/posts/?page=${page}`);
       if (page === 1) {
         setPosts(response.data.results);
       } else {

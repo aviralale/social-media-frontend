@@ -20,7 +20,7 @@ const EditComment = (props) => {
     e.preventDefault();
 
     try {
-      await axiosInstance.patch(`/api/comments/${commentId}/`, {
+      await axiosInstance.patch(`comments/${commentId}/`, {
         post: postId,
         content: content,
       });

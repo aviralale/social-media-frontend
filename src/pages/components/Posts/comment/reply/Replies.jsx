@@ -10,7 +10,7 @@ export function Replies(props) {
   const fetchReplies = async () => {
     try {
       const response = await axiosInstance.get(
-        `${apiURL}/api/comments/${props.commentId}/replies/`
+        `comments/${props.commentId}/replies/`
       );
       setReplies(response.data);
     } catch (error) {

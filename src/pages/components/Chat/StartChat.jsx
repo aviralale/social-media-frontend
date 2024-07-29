@@ -8,7 +8,7 @@ function StartChat({ onNewChat }) {
 
   const handleStartChat = async () => {
     try {
-      const response = await axiosInstance.get(`/api/start/${username}/`);
+      const response = await axiosInstance.get(`start/${username}/`);
       onNewChat(response.data);
       setUsername("");
     } catch (error) {

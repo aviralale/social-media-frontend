@@ -46,7 +46,7 @@ export default function EditProfile(props) {
 
   const fetchProfileData = async () => {
     try {
-      const { data } = await axiosInstance.get("/api/auth/users/me/", {
+      const { data } = await axiosInstance.get("auth/users/me/", {
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
@@ -79,13 +79,9 @@ export default function EditProfile(props) {
     if (coverImg) formData.append("cover_pic", coverImg);
 
     try {
-      const { data } = await axiosInstance.patch(
-        "/api/auth/users/me/",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const { data } = await axiosInstance.patch("auth/users/me/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setDisplayName(data.first_name || "");
       setBio(data.bio || "");
       setGender(data.gender || "");

@@ -21,7 +21,7 @@ const EditPost = (props) => {
 
     try {
       await axiosInstance.patch(
-        `/api/posts/${postId}/`,
+        `posts/${postId}/`,
         { content: content },
         {
           headers: {

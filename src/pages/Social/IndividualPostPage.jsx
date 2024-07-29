@@ -19,7 +19,7 @@ export default function IndividualPostPage(props) {
   const fetchPostData = useCallback(async () => {
     try {
       const response = await axiosInstance.get(
-        `${apiURL}/api/users/${username}/posts/${postId}/`
+        `users/${username}/posts/${postId}/`
       );
       setPostData(response.data);
       setIsLiked(response.data.is_liked);
@@ -43,9 +43,7 @@ export default function IndividualPostPage(props) {
       setIsLiked(newIsLiked);
       setLikeCount((prevCount) => (newIsLiked ? prevCount + 1 : prevCount - 1));
 
-      const response = await axiosInstance.post(
-        `${apiURL}/api/posts/${postId}/like/`
-      );
+      const response = await axiosInstance.post(`posts/${postId}/like/`);
 
       if (response.data.is_liked !== newIsLiked) {
         fetchPostData();

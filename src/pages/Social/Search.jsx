@@ -18,9 +18,7 @@ const Search = (props) => {
   const handleSearch = async () => {
     try {
       props.setProgress(10);
-      const response = await axiosInstance.get(
-        `/api/search/search/?q=${query}`
-      );
+      const response = await axiosInstance.get(`search/search/?q=${query}`);
       setResults(response.data);
       props.setProgress(100);
     } catch (error) {
